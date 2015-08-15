@@ -1,4 +1,4 @@
-require_relative '../lib/api'
+require_relative '../lib/three_taps_api'
 
 require 'minitest/autorun'
 require 'webmock/minitest'
@@ -13,7 +13,7 @@ Turn.config do |c|
   c.natural = true
 end
 
-VCR.config do |c|
+VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/three_taps_cassettes'
-  c.stub_with :webmock
+  c.hook_into :webmock
 end

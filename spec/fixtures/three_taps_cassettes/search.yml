@@ -1,0 +1,610 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.3taps.com/?auth_token=6fc1d8fa4866493f63034310e6632e10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 14 Aug 2015 19:33:22 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"next_page": 1, "time_search": 33.809900283813477, "success": true,
+        "time_taken": 49.612045288085938, "anchor": 2343432836, "time_fetch": 8.8229179382324219,
+        "num_matches": 1792692, "postings": [{"category": "SAPL", "timestamp": 1439580501,
+        "id": 2343432835, "source": "E_BAY", "location": {"city": "USA-TLS-TUL", "geolocation_status":
+        3, "metro": "USA-TLS", "country": "USA", "zipcode": "USA-74114", "long": "-95.948338",
+        "county": "USA-OK-TUL", "state": "USA-OK", "lat": "36.126074", "formatted_address":
+        "74114,Tulsa,OK,USA", "accuracy": 8}, "external_id": "111743729126", "heading":
+        "Alpha Omega 11th Grade Switched on Schoolhouse - English III & Chemistry",
+        "external_url": "http://www.ebay.com/itm/Alpha-Omega-11th-Grade-Switched-Schoolhouse-English-III-Chemistry-/111743729126"},
+        {"category": "SAPL", "timestamp": 1439580501, "id": 2343432836, "source":
+        "E_BAY", "location": {"city": "USA-CHI-CHI", "geolocation_status": 3, "metro":
+        "USA-CHI", "locality": "USA-CHI-LCS", "country": "USA", "region": "USA-CHI-CIT",
+        "zipcode": "USA-60625", "long": "-87.703656", "county": "USA-IL-COO", "state":
+        "USA-IL", "lat": "41.972002", "formatted_address": "60625,Chicago,IL,USA",
+        "accuracy": 8}, "external_id": "301712897404", "heading": "Intel Core i5-3470
+        3.2 GHz Quad-Core (BX80637I53470) Processor", "external_url": "http://www.ebay.com/itm/Intel-Core-i5-3470-3-2-GHz-Quad-Core-BX80637I53470-Processor-/301712897404"},
+        {"category": "SAPL", "timestamp": 1439580500, "id": 2343432834, "source":
+        "E_BAY", "location": {"city": "USA-RON-MEN", "geolocation_status": 3, "metro":
+        "USA-RON", "country": "USA", "zipcode": "USA-14506", "long": "-77.504396",
+        "county": "USA-NY-MOR", "state": "USA-NY", "lat": "42.999729", "formatted_address":
+        "14506,Mendon,NY,USA", "accuracy": 8}, "external_id": "201407854482", "heading":
+        "Linksys EA6500 1300 Mbps 4-Port Gigabit Wireless AC Router", "external_url":
+        "http://www.ebay.com/itm/Linksys-EA6500-1300-Mbps-4-Port-Gigabit-Wireless-AC-Router-/201407854482"},
+        {"category": "SAPL", "timestamp": 1439580499, "id": 2343432831, "source":
+        "E_BAY", "location": {"city": "USA-NYM-SPN", "geolocation_status": 3, "metro":
+        "USA-NYM", "country": "USA", "zipcode": "USA-07081", "long": "-74.329094",
+        "county": "USA-NJ-UNI", "state": "USA-NJ", "lat": "40.698974", "formatted_address":
+        "07081,Springfield,NJ,USA", "accuracy": 8}, "external_id": "151779904032",
+        "heading": "Apple Component AV Cable - Sealed - No reserve", "external_url":
+        "http://www.ebay.com/itm/Apple-Component-AV-Cable-Sealed-No-reserve-/151779904032"},
+        {"category": "SAPL", "timestamp": 1439580499, "id": 2343432832, "source":
+        "E_BAY", "location": {"geolocation_status": 0, "country": "CA", "zipcode":
+        "H4E2K9", "long": "0.0", "lat": "0.0", "formatted_address": "H4E2K9,Canada",
+        "accuracy": 8}, "external_id": "121731236304", "heading": "Lot of 2 Genuine
+        HP (15:black) and (21:black)", "external_url": "http://www.ebay.com/itm/Lot-2-Genuine-HP-15-black-and-21-black-/121731236304"},
+        {"category": "SAPL", "timestamp": 1439580499, "id": 2343432833, "source":
+        "E_BAY", "location": {"city": "USA-MIA-HOL", "geolocation_status": 3, "metro":
+        "USA-MIA", "country": "USA", "region": "USA-MIA-BRO", "zipcode": "USA-33024",
+        "long": "-80.244353", "county": "USA-FL-BRW", "state": "USA-FL", "lat": "26.02722",
+        "formatted_address": "33024,Hollywood,FL,USA", "accuracy": 8}, "external_id":
+        "191662622417", "heading": "Memorex 32020015635 CD-R 52x 700MB 80 Min Discs
+        in Paper Sleeves  10 Pack", "external_url": "http://www.ebay.com/itm/Memorex-32020015635-CD-R-52x-700MB-80-Min-Discs-Paper-Sleeves-10-Pack-/191662622417"},
+        {"category": "SAPL", "timestamp": 1439580498, "id": 2343432829, "source":
+        "E_BAY", "location": {"city": "USA-DES-DEM", "geolocation_status": 3, "metro":
+        "USA-DES", "locality": "USA-DES-BEA", "country": "USA", "zipcode": "USA-50310",
+        "long": "-93.661708", "county": "USA-IA-POL", "state": "USA-IA", "lat": "41.628966",
+        "formatted_address": "50310,Des Moines,IA,USA", "accuracy": 8}, "external_id":
+        "271957655765", "heading": "Amazon Kindle Fire HD 6 8GB, Wi-Fi, 6in - Black",
+        "external_url": "http://www.ebay.com/itm/Amazon-Kindle-Fire-HD-6-8GB-Wi-Fi-6in-Black-/271957655765"},
+        {"category": "SAPL", "timestamp": 1439580498, "id": 2343432830, "source":
+        "E_BAY", "location": {"geolocation_status": 0, "country": "US", "long": "0.0",
+        "lat": "0.0", "formatted_address": ",USA", "accuracy": 2}, "external_id":
+        "361364729558", "heading": "Original HP/Compaq 90W AC Adapter Charger for
+        nc8430 nc8430 nx6400 nx7400 NEW", "external_url": "http://www.ebay.com/itm/Original-HP-Compaq-90W-AC-Adapter-Charger-nc8430-nc8430-nx6400-nx7400-NEW-/361364729558"},
+        {"category": "SAPL", "timestamp": 1439580498, "id": 2343432828, "source":
+        "E_BAY", "location": {"city": "USA-SFO-FRM", "geolocation_status": 3, "metro":
+        "USA-SFO", "locality": "USA-SFO-MIH", "country": "USA", "region": "USA-SFO-EAS",
+        "zipcode": "USA-94539", "long": "-121.910321", "county": "USA-CA-ALM", "state":
+        "USA-CA", "lat": "37.528786", "formatted_address": "94539,Fremont,CA,USA",
+        "accuracy": 8}, "external_id": "161794427193", "heading": "Inateck 4-port
+        USB 3.0 Hub Bus-powered with OTG Adapter fits Laptops, Ultrabooks", "external_url":
+        "http://www.ebay.com/itm/Inateck-4-port-USB-3-0-Hub-Bus-powered-OTG-Adapter-fits-Laptops-Ultrabooks-/161794427193"},
+        {"category": "SAPL", "timestamp": 1439580497, "id": 2343432826, "source":
+        "E_BAY", "location": {"geolocation_status": 0, "country": "US", "long": "0.0",
+        "lat": "0.0", "formatted_address": ",USA", "accuracy": 2}, "external_id":
+        "371412410392", "heading": "NEW 19V 4.74A AC Charger for ASUS U5A U5F U6V
+        W7F W7S Z9000 Z9300 Z99 M6700 NEW", "external_url": "http://www.ebay.com/itm/NEW-19V-4-74A-AC-Charger-ASUS-U5A-U5F-U6V-W7F-W7S-Z9000-Z9300-Z99-M6700-NEW-/371412410392"}],
+        "next_tier": 0}'
+    http_version: 
+  recorded_at: Fri, 14 Aug 2015 19:33:22 GMT
+- request:
+    method: get
+    uri: http://3taps.com/?auth_token=6fc1d8fa4866493f63034310e6632e10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Server:
+      - nginx/1.8.0
+      Date:
+      - Fri, 14 Aug 2015 23:10:55 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '184'
+      Connection:
+      - keep-alive
+      Location:
+      - https://3taps.com/?auth_token=6fc1d8fa4866493f63034310e6632e10
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body
+        bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx/1.8.0</center>\r\n</body>\r\n</html>\r\n"
+    http_version: 
+  recorded_at: Fri, 14 Aug 2015 23:10:55 GMT
+- request:
+    method: get
+    uri: https://3taps.com/?auth_token=6fc1d8fa4866493f63034310e6632e10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.8.0
+      Date:
+      - Fri, 14 Aug 2015 23:10:55 GMT
+      Content-Type:
+      - text/html; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - PHPSESSID=9bf1dcbb52ce93e469b39f893d279ff0; path=/
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+    body:
+      encoding: UTF-8
+      string: "\r\n<!DOCTYPE html>\r\n<html>\r\n    <head>\r\n        <title>3TAPS</title>\r\n<meta
+        http-equiv=\"cache-control\" content=\"max-age=0\" />\r\n<meta http-equiv=\"cache-control\"
+        content=\"no-cache\" />\r\n<meta http-equiv=\"expires\" content=\"0\" />\r\n<meta
+        http-equiv=\"expires\" content=\"Tue, 01 Jan 1980 1:00:00 GMT\" />\r\n<meta
+        http-equiv=\"pragma\" content=\"no-cache\" />\r\n        <script src=\"scripts/jquery-1.8.3.js\"></script>\n<meta
+        charset=\"utf-8\">\n<link media=\"all\" rel=\"stylesheet\" href=\"stylesheets/all.css\">\n<link
+        media=\"all\" rel=\"stylesheet\" href=\"stylesheets/visualize.css\">\n<link
+        media=\"all\" rel=\"stylesheet\" href=\"stylesheets/stats.css\">\n<link media=\"all\"
+        rel=\"stylesheet\" href=\"stylesheets/visualize-light.css\">\n<link href=\"/tweet/jquery.tweet.css\"
+        media=\"all\" rel=\"stylesheet\" type=\"text/css\"/>\n\n<script src=\"scripts/main.js\"></script>\n<script
+        type='text/javascript'>\n//\t   jQuery(function($){\n//\t     $(\".tweet\").tweet({\n//\t
+        \      join_text: \"auto\",\n//\t       avatar_size: 32,\n//\t       count:
+        2,\n//\t       username: [\"3taps\"],\n//\t       loading_text: \"loading
+        tweets...\"\n//\t     });\n//\t   });\n</script>\n<!--[if lte IE 7]><link
+        rel=\"stylesheet\" type=\"text/css\" href=\"css/ie.css\" media=\"screen\"/><![endif]-->\n<!--[if
+        lt IE 9]><script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script></script><![endif]-->\n
+        \       <style type=\"text/css\">\r\n         .poll_checkbox_container{\r\n
+        \          margin-bottom:10px;\r\n         }\r\n        </style>\r\n\r\n        <script
+        type=\"text/javascript\" src=\"js/jquery.jqplot.js\"></script>\r\n        <script
+        type=\"text/javascript\" src=\"js/jqplot.barRenderer.min.js\"></script>\r\n
+        \       <script type=\"text/javascript\" src=\"js/jqplot.categoryAxisRenderer.js\"></script>\r\n
+        \       <script type=\"text/javascript\" src=\"js/jqplot.pointLabels.min.js\"></script>\r\n
+        \   </head>\r\n    <body>\r\n        <!-- wrapper -->\r\n        <div id=\"wrapper\">\r\n
+        \           <div class=\"w1\">\r\n                <div class=\"w2\">\r\n                    <!--
+        header -->\r\n                    <header id=\"header\">\r\n                        <!--
+        logotype -->\r\n                        <strong class=\"logo\"><a href=\"#\">3taps</a></strong>\r\n
+        \                       <!-- navigation -->\r\n                        <nav
+        id=\"nav\">\r\n                            <ul>\r\n                                <li
+        class=\"active\"><a href=\"#\">Home</a></li>\r\n                                <li><a
+        href=\"advocacy.php\">ADVOCACY</a></li>\r\n                                <li><a
+        href=\"developers-overview.php\">DEVELOPERS</a></li>\r\n                                <!--
+        <li><a href=\"stats.php\">STATS</a></li> -->\r\n                                <li><a
+        href=\"http://www.twitter.com/3taps\">@3TAPS</a></li>\r\n                                <li><a
+        href=\"contact.php\">CONTACT US</a></li>\r\n                            </ul>\r\n
+        \                       </nav>\r\n                    </header>\r\n                    <!--
+        container -->\r\n                    <div class=\"container\">\r\n                        <h1
+        class=\"main-text\">3taps: One-Stop Data Shop for Developers</h1>\r\n                        <!--
+        image i-device -->\r\n                        <div class=\"visual\">\r\n                                                        <iframe
+        align=\"middle\" src=\"/vis/\" id=\"explore-iframe\" style=\"width:100%; height:850px;
+        padding-top:40px;\" seamless=\"true\">Your browser doesn't support floating
+        frames!</iframe>\r\n                            <!-- ipad-block -->\r\n<!--
+        \                           <div class=\"ipad-block\">\r\n                                <img
+        src=\"images/img01.jpg\" alt=\"image description\" width=\"227\" height=\"169\"
+        />\r\n                                <span class=\"decoration\"></span>\r\n
+        \                           </div>-->\r\n                            <!--
+        imac-block -->\r\n<!--                            <div class=\"imac-block\">\r\n
+        \                               <img src=\"images/img02.jpg\" alt=\"image
+        description\" width=\"504\" height=\"317\" />\r\n                                <span
+        class=\"decoration\"></span>\r\n                            </div>-->\r\n
+        \                           <!-- iphone-block -->\r\n<!--                            <div
+        class=\"iphone-block\">\r\n                                <img src=\"images/img03.jpg\"
+        alt=\"image description\" width=\"70\" height=\"126\" />\r\n                                <span
+        class=\"decoration\"></span>\r\n                            </div>-->\r\n
+        \                       </div>\r\n                        <!-- text-holder
+        -->\r\n                        <div class=\"text-holder main-text\">\r\n                            <h2>Keeping
+        exchange-related data in the public domain</h2>\r\n                        </div>\r\n
+        \                   </div>\r\n                    <!-- main -->\r\n                    <div
+        id=\"main\">\r\n                        <!-- item list -->\r\n                        <section
+        class=\"items\">\r\n                            <div class=\"holder\">\r\n
+        \                               <!-- item -->\r\n                                <div
+        class=\"item\">\n<div class=\"title\">\n<h3><a href=\"../the-craigslist-lawsuit.php\">The
+        Craigslist Lawsuit</a></h3>\n</div>\n<blockquote>\n<p><span>3taps and Craigslist
+        have reached a global settlement of 3taps' antitrust claims and craigslist's
+        claims against 3taps.</span></p>\n<p><a href=\"../the-craigslist-lawsuit.php\"
+        target=\"_self\">Read more on 3taps' statement regarding craigslist's misuse
+        of the CFAA</a></p>\n</blockquote>\n</div>                                <!--
+        item -->\r\n                                <div class=\"item\">\n<div class=\"title\">\n<h3>API
+        Registration</h3>\n</div>\n<span id=\"result_box\" class=\"short_text\" lang=\"en\"><span
+        class=\"hps\">Now</span> <span class=\"hps\">you do not need</span> <span
+        class=\"hps\">to</span> <span class=\"hps\">register</span> <span class=\"hps\">to
+        use</span> <span class=\"hps\">API</span></span>.</div>                                <!--
+        item -->\r\n                                <div class=\"item\">\n<div class=\"title\">\n<h3><a
+        href=\"#\">What is 3taps?</a></h3>\n</div>\n<p>3taps is an exchange platform
+        dedicated to keeping public facts publicly accessible. We collect, organize,
+        and distribute exchange-related data for developer use. The Data Commons is
+        open to all posting sources and developers interested in creating fair and
+        efficient markets. All transaction-specific information is available at the
+        same time, to everyone.&nbsp;</p>\n</div>                            </div>\r\n
+        \                       </section>\r\n                        <!-- twocolumns
+        -->\r\n                        <div class=\"twocolumns\">\r\n                            <!--
+        box -->\r\n                            <section class=\"box\">\r\n                            \r\n
+        \                                       <h3 class=\"twitter\"><a class=\"screen-name
+        url\" data-screen-name=\"3taps\" href=\"https://twitter.com/3taps\">@3taps</a></h3>\r\n\r\n
+        \                                       \r\n                                        \r\n
+        \               <style>\r\n                \r\n                    \r\n                    #tweet
+        {\r\n                        display:inline-block;\r\n                        vertical-align:top;\r\n
+        \                       width:80%;\r\n                    }\r\n                \r\n
+        \               \r\n                    #tweets .user {\r\n                        display:
+        inline-block;\r\n                        margin-bottom: 0px;\r\n                        width:
+        auto;\r\n                        vertical-align: top;\r\n                        margin-right:
+        8px;\r\n                        position: relative;\r\n                        top:
+        -3px;\r\n                    }\r\n                        #tweets .user a
+        {\r\n                            text-decoration:none;\r\n                        }\r\n
+        \                           #tweets .user a img {\r\n                                display:
+        inline-block;\r\n                                vertical-align: middle;\r\n
+        \                               zoom:1;\r\n                                width:
+        23px;\r\n                            }\r\n                        #tweets
+        .user span {\r\n                            display: inline-block;\r\n                            vertical-align:
+        middle;\r\n                            zoom:1;\r\n                        }\r\n
+        \                       #tweets ul li p {\r\n                            margin-bottom:7px
+        !important;\r\n                        }\r\n                        #twitter-feed
+        ul li p.timePosted {\r\n                            display:none;\r\n                            font-size:9pt;\r\n
+        \                           color:#333;\r\n                        }\r\n                        .timePosted
+        {\r\n                            display: inline-block;\r\n                            margin-left:
+        13px !important;\r\n                        }\r\n                \r\n                \r\n
+        \               \r\n                \r\n                    #tweets ul li,
+        #content #twitter-feed .mid-tweet {\r\n                        /* padding-bottom:
+        15px; */\r\n                        margin-top: 15px;\r\n                        list-style:
+        none;\r\n                        border-bottom:1px dashed rgba(255, 255, 255,
+        0.58);\r\n                    }\r\n                    #tweets ul li:last-child
+        {\r\n                        border-bottom:0px dashed rgba(255, 255, 255,
+        0.58);\r\n                    }\r\n                    \r\n                    #tweets
+        .user a span:first-child {\r\n                        display:none !important;
+        \r\n                    }\r\n\r\n                </style>\r\n                                        \r\n
+        \              <div id=\"tweets\" class=\"tweet\"></div>\r\n               \r\n
+        \              \r\n               <script>\r\n                $(document).ready(function()
+        {\r\n                    \r\n                    $(window).scroll(function()
+        {\r\n                    \r\n                        if ( $('#tweets').hasClass('set')
+        ) {} else {\r\n                        \r\n\r\n                            $('#tweets
+        ul li').each(function() {\r\n                        \r\n                                var
+        thisUser        = $('.user', this),\r\n                                    thisTime
+        \       = $('.timePosted', this),\r\n                                    thisP
+        \          = $('p.tweet', this);\r\n                        \r\n                                thisUser.prependTo(thisP);\r\n
+        \                               thisTime.appendTo(thisP);\r\n                            \r\n
+        \                           });\r\n                            \r\n                            $('#tweets').addClass('set')\r\n\r\n\r\n
+        \                       }\r\n                    \r\n                    });\r\n
+        \                   \r\n                \r\n                });\r\n               </script>\r\n
+        \              \r\n               \r\n               \r\n<a id=\"follow-button\"
+        target=\"_blank\" class=\"btn\" title=\"Follow @3taps on Twitter\" href=\"https://twitter.com/intent/follow?original_referer=http%3A%2F%2F3taps.com%2F&amp;region=follow_link&amp;screen_name=3taps&amp;tw_p=followbutton&amp;variant=2.0\"><i></i><span
+        class=\"label\" id=\"l\">Follow</span></a>\r\n                            </section>\r\n
+        \                           \r\n                            <!-- feedback
+        form -->\r\n                            <div id = 'feedback_form'>\r\n                                <form
+        action=\"/contact_email.php\" class=\"box letter-form\" name='contactForm'>\r\n
+        \                                   <h3 class=\"letter\">Get in touch</h3>\r\n
+        \                                   <fieldset>\r\n                                        <legend>feedback
+        form</legend>\r\n                                        <div class=\"input-group\">\r\n
+        \                                           <label for=\"email\">your email</label>\r\n
+        \                                           <input type=\"text\" id=\"email\"
+        placeholder=\"your email\" name='email' />\r\n                                            <label
+        for=\"message\">type message</label>\r\n                                            <textarea
+        name='message' type=\"text\" id=\"message\" placeholder=\"type message\" ></textarea>\r\n
+        \                                       </div>\r\n                                        <input
+        id='contact-submit' type=\"submit\" value=\"Contact Us\" />\r\n                                    </fieldset>\r\n
+        \                               </form>\r\n                            </div>\r\n
+        \ \r\n                            <div id=\"thank-you\" class='box letter-form'
+        style='display:none'>\r\n                                Thank you!  Your
+        message has been sent!\r\n                            </div>\r\n\r\n                        </div>\r\n
+        \                   </div>\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n        <!-- footer -->\r\n        <footer id=\"footer\">\r\n
+        \           <!-- footer navigation -->\r\n            <nav class=\"nav\">\r\n
+        \               <ul>\r\n                    <li><a href=\"terms.php\">Terms
+        of Service</a></li>\r\n                    <li><a href=\"privacy.php\">Privacy</a></li>\r\n
+        \               </ul>\r\n            </nav>\r\n            <p class=\"copy\">&copy;
+        2012 <a href=\"index.php\">3taps</a> Inc</p>\r\n        </footer>\r\n    </body>\r\n</html>\r\n<script>console.log(\"hello,
+        live\");</script>\r\n\r\n      <script>\r\n          if (false) $(\"#wrapper\").attr('style',
+        'opacity:.1;');\r\n      \r\n          $(document).ready(function() {\r\n
+        \           $(\"#overlay-continue\").live('click touchstart', function(){\r\n
+        \               $(\"#wrapper\").fadeTo(\"slow\", 1);\r\n                $(\".overlay\").fadeTo(\"slow\",
+        0, function(){ $(\".overlay\").hide(); }) ;\r\n            });\r\n            initializeSurvey();\r\n
+        \           setSignInHandler();\r\n          });\r\n\r\n          function
+        initializeSurvey(){\r\n            $(\"#source_poll\").show()\r\n            setSurveyForm()\r\n
+        \         }\r\n\r\n          function setSurveyForm(){\r\n            $.when(getVisibleSurveyOptions()).then(function(response){\r\n
+        \             updateOptions(response)\r\n              limitSelectedVariants()\r\n
+        \           })\r\n          }  \r\n\r\n          function getSurveyOptions(){\r\n
+        \           var deff = $.ajax({ \r\n              url:     \"/poll_vote.php\",
+        \r\n              type:     \"POST\", \r\n              dataType: \"html\",
+        \r\n              data: {action: 'get_survey_options'}\r\n            });\r\n
+        \           return deff;\r\n          }\r\n\r\n          function getVisibleSurveyOptions(){\r\n
+        \           var deff = $.ajax({ \r\n              url:     \"/poll_vote.php\",
+        \r\n              type:     \"POST\", \r\n              dataType: \"html\",
+        \r\n              data: {action: 'get_visible_survey_options'}\r\n            });\r\n
+        \           return deff;\r\n          }\r\n\r\n          function setSignInVoteSubmitHandler(){\r\n
+        \           $('#source_poll button#vote').on('click', function(e){\r\n              e.preventDefault();\r\n
+        \             $('.loading_sign_in').show()\r\n              var username =
+        $('#source_poll input[name=username]').val()\r\n\r\n              var data
+        = {}\r\n              \r\n              var options = []\r\n              $.each($('#source_poll
+        input[name=source]:checked'), function(index, checkbox){\r\n                options.push($(checkbox).val())\r\n
+        \             })\r\n              data['sources'] = options\r\n              \r\n
+        \             var own_option = $('#source_poll input[name=own_option]').val()\r\n
+        \             if ($('#source_poll input[name=own_option_checkbox]:checked').size()
+        > 0 && own_option !=''){\r\n                data['own_option'] = own_option\r\n
+        \             }\r\n\r\n              $.ajax({ \r\n                url:     \"/poll_vote.php\",
+        \r\n                type:     \"POST\", \r\n                dataType: \"html\",
+        \r\n                data: {action: 'sign_in_and_vote', data: data, username:
+        username},  \r\n                success: function(response) { \r\n                  $('.loading_sign_in').hide()\r\n
+        \                 response = $.parseJSON(response)\r\n                  if
+        (response == 'We were unable to confirm that the submitted 3taps Username.'){\r\n
+        \                   $('#source_poll #error_sign_in').text(response).show()\r\n
+        \                 } else if (response['already_voted'] == true) {\r\n                    \r\n
+        \                   var notification = \"Our records indicate that you have
+        already voted at \"\r\n                    notification += response['pass_date']\r\n
+        \                   notification += \" and choose the next choices: \" + $.parseJSON(response['vote_choices']).join(',
+        ')\r\n\r\n                    $('#source_poll #error_sign_in').text(notification).show()\r\n
+        \                 } else {\r\n                    drawSurveyResults(response)\r\n
+        \                   $('#source_poll').after($('#chart'))\r\n                    $('#source_poll').remove()\r\n
+        \                 }\r\n                }\r\n              });\r\n            });\r\n
+        \         }\r\n\r\n          function setSignInHandler(){\r\n            $('#sign_in_form
+        #sign_in').on('click', function(e){\r\n              e.preventDefault();\r\n
+        \             $('#error_sign_in').hide()\r\n                var username =
+        $('#sign_in_form input[name=username]').val()\r\n                var password
+        = $('#sign_in_form input[name=password]').val()\r\n\r\n                $.ajax({
+        \r\n                  url:     \"/poll_vote.php\", \r\n                  type:
+        \    \"POST\", \r\n                  dataType: \"html\", \r\n                  data:
+        {action: 'sign_in_admin', username: username, password: password},  \r\n                  success:
+        function(response) { \r\n                    if (response == '\\\"invalid
+        credentials\\\"'){\r\n                      $('#error_sign_in').show()\r\n
+        \                     setTimeout(function(){\r\n                        $('#error_sign_in').hide()\r\n
+        \                     },10000)\r\n                    }\r\n\r\n                    if
+        (response == '\\\"successfully logged in\\\"'){\r\n                      $.when(getSurveyOptions()).then(function(response){\r\n
+        \                       setAdminForm(response)\r\n                      })\r\n
+        \                     \r\n                    }\r\n                  }\r\n
+        \               });\r\n            });\r\n          }\r\n\r\n          function
+        setAdminForm(response){\r\n            var options_html = '<table cellpadding=10>'\r\n
+        \           $.each($.parseJSON(response), function(index, option){\r\n              if
+        (option['show'] == '1'){\r\n                var option_state = 'option is
+        visible'\r\n                var change_state_link = 'hide'\r\n              }
+        else {\r\n                var option_state = 'option is hidden'\r\n                var
+        change_state_link = 'show'\r\n              }\r\n              \r\n              options_html
+        += \"<tr><td>\"+option['option_name']+\"</td>\"\r\n              options_html
+        += \"<td>\"+option['amount']+\"</td>\"\r\n              options_html += \"<td><a
+        href='#' option_id=\"+option['id']+\" class='delete_option'>delete</a></td>\"\r\n
+        \             options_html += \"<td><span>\"+option_state+\"</span>&#32;&#32;&#32;<a
+        href='#' option_id=\"+option['id']+\r\n              \" class='change_status_option'>\"+change_state_link+\"</a></td>\"\r\n
+        \             options_html += \"</tr>\"\r\n            })\r\n            options_html
+        += \"</table>\" \r\n            options_html += \"<form action='#' id='add_new_option'>\"
+        \r\n            options_html += \"Add new option<input type='text'></input>\"
+        \r\n            options_html += \"<button type='submit'>Add</button>\" \r\n
+        \           options_html += \"</form\" \r\n\r\n            $(\"#admin_form_container\").html(options_html).show()\r\n
+        \           $(\"#sign_in_form\").hide()\r\n            setAddNewOptionHandler()\r\n
+        \           setDeleteOptionHandler()\r\n            setChangeStateOptionHandler()\r\n
+        \         }\r\n\r\n          function setChangeStateOptionHandler(){\r\n            $('#developers-poll-1
+        .change_status_option').on('click', function(e){\r\n              var changed_option
+        = this\r\n              var option_id = $(changed_option).attr('option_id')\r\n
+        \             \r\n              var description_element = $(changed_option).parents('td').find('span').first()\r\n
+        \             var description = $(description_element).text()\r\n              if
+        (description == 'option is hidden'){\r\n                var option_state =
+        'option is visible'\r\n                var change_state_link = 'hide'\r\n
+        \             } else {\r\n                var option_state = 'option is hidden'\r\n
+        \               var change_state_link = 'show'\r\n              }\r\n\r\n
+        \             e.preventDefault();\r\n              $.when(changeStateOption(option_id)).then(function(response){\r\n
+        \               if (response == 'you are not admin'){\r\n                  window.location.reload()\r\n
+        \               } else {\r\n                  $(description_element).text(option_state)\r\n
+        \                 $(changed_option).text(change_state_link)\r\n                }\r\n
+        \             })\r\n            })\r\n          }\r\n\r\n\r\n          function
+        changeStateOption(option_id, current_state){\r\n            var deff = $.ajax({
+        \r\n              url:     \"/poll_vote.php\", \r\n              type:     \"POST\",
+        \r\n              dataType: \"html\", \r\n              data: {action: 'change_option',
+        option_id: option_id}\r\n            });\r\n            return deff\r\n          }\r\n\r\n\r\n
+        \         function setDeleteOptionHandler(){\r\n            $('#developers-poll-1
+        .delete_option').on('click', function(e){\r\n              var deleted_option
+        = this\r\n              var option_id = $(deleted_option).attr('option_id')\r\n
+        \             e.preventDefault();\r\n              $.when(deleteOption(option_id)).then(function(response){\r\n
+        \               if (response == 'you are not admin'){\r\n                  window.location.reload()\r\n
+        \               } else {\r\n                  $(deleted_option).first().parents('tr').remove()\r\n
+        \               }\r\n              })\r\n            })\r\n          }\r\n\r\n
+        \         function deleteOption(option_id){\r\n            var deff = $.ajax({
+        \r\n              url:     \"/poll_vote.php\", \r\n              type:     \"POST\",
+        \r\n              dataType: \"html\", \r\n              data: {action: 'delete_option',
+        option_id: option_id}\r\n            });\r\n            return deff\r\n          }\r\n\r\n
+        \         function setAddNewOptionHandler(){\r\n            $('#add_new_option
+        button').on('click', function(e){\r\n              e.preventDefault();\r\n
+        \             $.when(addNewOption()).then(function(response){\r\n                if
+        (response == 'you are not admin'){\r\n                  window.location.reload()\r\n
+        \               } else {\r\n                  response = $.parseJSON(response)\r\n
+        \                 $(\"#developers-poll-1 table\").append('<tr><td>'+response['option_name']+\r\n
+        \                   '</td><td>'+response['amount']+'</td><td><a href=\"#\"
+        option_id='+response['id']+\r\n                    ' class=\"delete_option\">delete</a></td><td>option
+        is hidden&#32;&#32;&#32;<a href=\"#\" option_id='+response['id']+\r\n                    '
+        class=\"change_status_option\">show</a></td></tr>')\r\n                 \r\n
+        \                 setDeleteOptionHandler()\r\n                  setChangeStateOptionHandler()\r\n
+        \               }\r\n              })\r\n            })\r\n          }\r\n\r\n
+        \         function addNewOption(){\r\n            var new_option = $('#add_new_option
+        input').val()\r\n            var deff = $.ajax({ \r\n              url:     \"/poll_vote.php\",
+        \r\n              type:     \"POST\", \r\n              dataType: \"html\",
+        \r\n              data: {action: 'add_new_option', new_option: new_option}\r\n
+        \           });\r\n            return deff\r\n          }\r\n\r\n          function
+        checkIfAlreadyVoted(){\r\n            var deff = $.ajax({ \r\n              url:
+        \    \"/poll_vote.php\", \r\n              type:     \"POST\", \r\n              dataType:
+        \"html\", \r\n              data: {action: 'check_if_already_voted'}\r\n            });\r\n
+        \           return deff\r\n          }\r\n\r\n          function drawSurveyResults(response){\r\n
+        \           var votes = []\r\n            var options = []\r\n            $.each(response,
+        function(index, option){\r\n              if (option['amount'] == null){option['amount']
+        = 0}\r\n              votes.push(parseInt(option['amount']))\r\n              options.push(option['option_name'])\r\n
+        \           })\r\n            var max = Math.max.apply(Math, votes)\r\n            var
+        pad = 10/max\r\n            if (max >= 10){pad = 1.05}\r\n            $(\"#chart\").show()\r\n
+        \           var plot1 = $.jqplot('chart', [votes], {\r\n              seriesDefaults:{\r\n
+        \               renderer:$.jqplot.BarRenderer\r\n              },\r\n              \r\n
+        \             series:[\r\n                {label:'votes amount'}\r\n              ],\r\n\r\n
+        \             axes: {\r\n                xaxis: {\r\n                  renderer:
+        $.jqplot.CategoryAxisRenderer,\r\n                  ticks: options\r\n                },\r\n
+        \               yaxis: {\r\n                  pad: pad,\r\n                  min:
+        0,\r\n                  label: 'Vote Count',\r\n                  numberTicks:
+        6\r\n                }\r\n              }\r\n            });\r\n          }\r\n\r\n
+        \         function updateOptions(response){\r\n            var options_html
+        = '<div id=\"error_sign_in\" style=\"display:none;color: #D13;margin-right:
+        30px;\"></div>'\r\n            options_html += '<span style=\"margin:3px;\">
+        3taps Username</span><input name=\"username\" type=\"text\"></input><span
+        class=\"loading_sign_in\" style=\"margin-left: 15px; display: none;\">Please,
+        wait...</span>'\r\n            $.each($.parseJSON(response), function(index,
+        option){\r\n              options_html += \"<div class='poll_checkbox_container'><input
+        type='checkbox'\"+\r\n              \" name='source' value='\"+option['option_name']+\"'>\"+option['option_name']+\"</div>\"\r\n
+        \           })\r\n            options_html += \"<div class='poll_checkbox_container'>\"
+        \r\n            options_html += \"<input type='checkbox' name='own_option_checkbox'
+        value='own_option'>\"\r\n            options_html += \"<span style='margin-right:10px;'>Other</span><input
+        name='own_option' type='text' style='color:#333' placeholder='name of source'>\"\r\n
+        \           options_html += \"</input></div><button type='submit' id='vote'>Vote</button>\"\r\n
+        \           $(\"#source_poll\").prepend(options_html)\r\n            setSignInVoteSubmitHandler()\r\n
+        \         }\r\n\r\n          function limitSelectedVariants(){\r\n            $('#source_poll
+        input[type=checkbox]').change(function(){\r\n              if ($('#source_poll
+        input[type=checkbox]:checked').size() >=2){\r\n                $('#source_poll
+        input[type=checkbox]:not(:checked)').attr(\"disabled\", true);\r\n              }
+        else {\r\n                $('#source_poll input[type=checkbox]:not(:checked)').removeAttr(\"disabled\",
+        true);\r\n              }\r\n            })\r\n          }\r\n\r\n\r\n                    \r\n
+        \                   \r\n                    \r\n                    \r\n                    \r\n
+        \                   \r\n    //                \r\n    //                \r\n
+        \   //      $(\"#wrapper\").attr('style', 'opacity:.1;');\r\n    //  \r\n
+        \   //      $(document).ready(function() {\r\n    //        $(\"#overlay-continue\").on(\r\n
+        \   //      \r\n    //          'mousedown', '.overlay #overlay-continue',
+        function(){\r\n    //          \r\n    //              alert('on continue');\r\n
+        \   //              $(\"#wrapper\").fadeTo(\"slow\", 1);\r\n    //              $(\".overlay\").fadeTo(\"slow\",
+        0, function(){ $(\".overlay\").hide(); }) ;\r\n    //              \r\n    //
+        \       });\r\n    //      });\r\n    //                \r\n    //                \r\n
+        \                   \r\n      </script>\r\n      \r\n\r\n\r\n"
+    http_version: 
+  recorded_at: Fri, 14 Aug 2015 23:10:55 GMT
+- request:
+    method: get
+    uri: http://search.3taps.com/?auth_token=6fc1d8fa4866493f63034310e6632e10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 14 Aug 2015 23:50:41 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"next_page": 1, "time_search": 78.618049621582031, "success": true,
+        "time_taken": 707.73100852966309, "anchor": 2343555865, "time_fetch": 621.6590404510498,
+        "num_matches": 1915721, "postings": [{"category": "SAPL", "timestamp": 1439596227,
+        "id": 2343555855, "source": "E_BAY", "location": {"city": "USA-JOO-JOH", "geolocation_status":
+        3, "metro": "USA-JOO", "country": "USA", "zipcode": "USA-37615", "long": "-82.451622",
+        "county": "USA-TN-WAS", "state": "USA-TN", "lat": "36.39024", "formatted_address":
+        "37615,Johnson City,TN,USA", "accuracy": 8}, "external_id": "141746031413",
+        "heading": "Harmon Kardon HK395 3-piece speaker system", "external_url": "http://www.ebay.com/itm/Harmon-Kardon-HK395-3-piece-speaker-system-/141746031413"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555856, "source":
+        "E_BAY", "location": {"city": "USA-POR-POR", "geolocation_status": 3, "metro":
+        "USA-POR", "locality": "USA-POR-PLE", "country": "USA", "region": "USA-POR-MUL",
+        "zipcode": "USA-97236", "long": "-122.502278", "county": "USA-OR-MUL", "state":
+        "USA-OR", "lat": "45.482627", "formatted_address": "97236,Portland,OR,USA",
+        "accuracy": 8}, "external_id": "131579220165", "heading": "Alienware Alpha
+        i3-4130T, 8GB Ram, 1TB HD, Windows 10 Pro", "external_url": "http://www.ebay.com/itm/Alienware-Alpha-i3-4130T-8GB-Ram-1TB-HD-Windows-10-Pro-/131579220165"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555857, "source":
+        "E_BAY", "location": {"city": "USA-NYM-LIA", "geolocation_status": 3, "metro":
+        "USA-NYM", "country": "USA", "zipcode": "USA-07424", "long": "-74.216776",
+        "county": "USA-NJ-PAS", "state": "USA-NJ", "lat": "40.88356", "formatted_address":
+        "07424,Little Falls,NJ,USA", "accuracy": 8}, "external_id": "141746031257",
+        "heading": "Netgear N450450 Mbps 4-Port 10/100 Wireless N Router (WNR2500-100NAS)",
+        "external_url": "http://www.ebay.com/itm/Netgear-N450-450-Mbps-4-Port-10-100-Wireless-N-Router-WNR2500-100NAS-/141746031257"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555858, "source":
+        "E_BAY", "location": {"city": "USA-SFO-SOT", "geolocation_status": 3, "metro":
+        "USA-SFO", "country": "USA", "region": "USA-SFO-PEN", "zipcode": "USA-94080",
+        "long": "-122.423128", "county": "USA-CA-SAM", "state": "USA-CA", "lat": "37.657846",
+        "formatted_address": "94080,South San Francisco,CA,USA", "accuracy": 8}, "external_id":
+        "301713479780", "heading": "NEW CASE COVER STAND FRONT+BACK PU LEATHER PINK
+        FOR GOOGLE ASUS NEXUS 7 TABLET", "external_url": "http://www.ebay.com/itm/NEW-CASE-COVER-STAND-FRONT-BACK-PU-LEATHER-PINK-GOOGLE-ASUS-NEXUS-7-TABLET-/301713479780"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555859, "source":
+        "E_BAY", "location": {"city": "USA-SFO-SOT", "geolocation_status": 3, "metro":
+        "USA-SFO", "country": "USA", "region": "USA-SFO-PEN", "zipcode": "USA-94080",
+        "long": "-122.423128", "county": "USA-CA-SAM", "state": "USA-CA", "lat": "37.657846",
+        "formatted_address": "94080,South San Francisco,CA,USA", "accuracy": 8}, "external_id":
+        "301713479703", "heading": "3X 10FT 30PIN USB DATA POWER CHARGER RED CABLE
+        IPHONE 4S 4 3GS IPOD NANO IPAD", "external_url": "http://www.ebay.com/itm/3X-10FT-30PIN-USB-DATA-POWER-CHARGER-RED-CABLE-IPHONE-4S-4-3GS-IPOD-NANO-IPAD-/301713479703"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555860, "source":
+        "E_BAY", "location": {"city": "USA-SFO-SOT", "geolocation_status": 3, "metro":
+        "USA-SFO", "country": "USA", "region": "USA-SFO-PEN", "zipcode": "USA-94080",
+        "long": "-122.423128", "county": "USA-CA-SAM", "state": "USA-CA", "lat": "37.657846",
+        "formatted_address": "94080,South San Francisco,CA,USA", "accuracy": 8}, "external_id":
+        "201407914966", "heading": "2IN1 USB 3.5MM AUX SYNC CHARGER WHITE CABLE CORD
+        IPHONE 4S 4 3GS 3G IPOD IPAD", "external_url": "http://www.ebay.com/itm/2IN1-USB-3-5MM-AUX-SYNC-CHARGER-WHITE-CABLE-CORD-IPHONE-4S-4-3GS-3G-IPOD-IPAD-/201407914966"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555861, "source":
+        "E_BAY", "location": {"city": "USA-NAS-MOJ", "geolocation_status": 3, "metro":
+        "USA-NAS", "country": "USA", "zipcode": "USA-37122", "long": "-86.490896",
+        "county": "USA-TN-WIS", "state": "USA-TN", "lat": "36.175305", "formatted_address":
+        "37122,Mount Juliet,TN,USA", "accuracy": 8}, "external_id": "252057393598",
+        "heading": "Bluetooth Keyboard iPpad Mini Case with bundle", "external_url":
+        "http://www.ebay.com/itm/Bluetooth-Keyboard-iPpad-Mini-Case-bundle-/252057393598"},
+        {"category": "SAPL", "timestamp": 1439596227, "id": 2343555862, "source":
+        "E_BAY", "location": {"city": "USA-CLE-CLE", "geolocation_status": 3, "metro":
+        "USA-CLE", "locality": "USA-CLE-DET", "country": "USA", "zipcode": "USA-44102",
+        "long": "-81.7388", "county": "USA-OH-CUY", "state": "USA-OH", "lat": "41.476005",
+        "formatted_address": "44102,Cleveland,OH,USA", "accuracy": 8}, "external_id":
+        "262005659917", "heading": "HIGH SPEED RECTANGLE BLACK PATTERNED GAMING MOUSE
+        PAD HELL DEVIL", "external_url": "http://www.ebay.com/itm/HIGH-SPEED-RECTANGLE-BLACK-PATTERNED-GAMING-MOUSE-PAD-HELL-DEVIL-/262005659917"},
+        {"category": "STOY", "timestamp": 1439596227, "id": 2343555863, "source":
+        "E_BAY", "location": {"city": "USA-BOO-VIL", "geolocation_status": 3, "metro":
+        "USA-BOO", "country": "USA", "zipcode": "USA-28692", "long": "-81.80394",
+        "county": "USA-NC-WAA", "state": "USA-NC", "lat": "36.278405", "formatted_address":
+        "28692,Vilas,NC,USA", "accuracy": 8}, "external_id": "321833124906", "heading":
+        "TABBYBROOK MAGE hero Super Dungeon Explore NEW SEALED Kickstarter expansion",
+        "external_url": "http://www.ebay.com/itm/TABBYBROOK-MAGE-hero-Super-Dungeon-Explore-NEW-SEALED-Kickstarter-expansion-/321833124906"},
+        {"category": "STOY", "timestamp": 1439596227, "id": 2343555864, "source":
+        "E_BAY", "location": {"city": "USA-CRS-CHA", "geolocation_status": 3, "metro":
+        "USA-CRS", "country": "USA", "zipcode": "USA-29404", "long": "-80.058944",
+        "county": "USA-SC-CHA", "state": "USA-SC", "lat": "32.890078", "formatted_address":
+        "29418,North Charleston,SC,USA", "accuracy": 8}, "external_id": "291539995545",
+        "heading": "1994 X Men X Force Series 3 RICTOR 5in. ToyBiz action figure.
+        Loose. Complete.", "external_url": "http://www.ebay.com/itm/1994-X-Men-X-Force-Series-3-RICTOR-5in-ToyBiz-action-figure-Loose-Complete-/291539995545"}],
+        "next_tier": 0}'
+    http_version: 
+  recorded_at: Fri, 14 Aug 2015 23:50:43 GMT
+recorded_with: VCR 2.9.3
