@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>3taps Data Commons Reference API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="referenceapi_files/stylesheet.css">
+    <script type="text/javascript">
+  function do_print() {
+    var w = window.open("", "_blank", "height=400,width=600,location=0");
+    w.document.write("<html>");
+    w.document.write("  <head>");
+    w.document.write("    <title>3taps Data Commons Reference API</title>");
+    w.document.write("   <link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\">");
+    w.document.write("  </head>");
+    w.document.write("  <body>");
+    w.document.write("<p><center>");
+    w.document.write("    <h1>");
+    w.document.write("        The 3taps Data Commons");
+    w.document.write("    </h1>");
+    w.document.write("    <h3>");
+    w.document.write("        The Reference API");
+    w.document.write("    </h3>");
+    w.document.write("</center></p>");
+    w.document.write("<p>The 3taps Reference API provides information about the data sources, category");
+    w.document.write("groups, categories and locations available within the 3taps system.  This");
+    w.document.write("information can be used by external systems to do things such as displaying a");
+    w.document.write("pick-list of available categories, translating location codes into location");
+    w.document.write("names, etc.</p>");
+    w.document.write("<h3>Caching Reference Data</h3>");
+    w.document.write("<p>External systems will often need to download and store a local cache of the");
+    w.document.write("reference data.  To allow for this, the Reference API can tell the caller when");
+    w.document.write("a particular piece of information was last changed.  The external system can");
+    w.document.write("then check the modification date to see if a piece of reference information has");
+    w.document.write("changed, and if so download the data again.  This check can either be done");
+    w.document.write("periodically (eg, once per hour), or it can be done automatically each time the");
+    w.document.write("reference information is needed.</p>");
+    w.document.write("<p>To see when a particular piece of reference data was last changed, make an HTTP");
+    w.document.write("<code>HEAD</code> request with the same URL as the data to be requested.  The server will");
+    w.document.write("return a response with no body, but with a <code>Last-Modified</code> header that contains");
+    w.document.write("the date and time at which the given piece of information was last changed.</p>");
+    w.document.write("<h3>Data Sources</h3>");
+    w.document.write("<p>To obtain a list of data sources, make an HTTP <code>GET</code> request to the following");
+    w.document.write("URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://reference.3taps.com/sources");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The API call accepts the following parameter:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a");
+    w.document.write("Content-Type of <code>application/json</code>, and the body of the response will be a");
+    w.document.write("JSON-encoded object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the request succeeded.</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<hr>");
+    w.document.write("<p>Note that this is only provided for consistency with the other Reference");
+    w.document.write("API calls; errors are not possible for this particular call.</p>");
+    w.document.write("<hr>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the request was not successful, this will be a string describing what");
+    w.document.write("went wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>sources</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array of data sources.  Each item in this array will be an object with");
+    w.document.write("the following entries:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for this data source.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The human-readable name for this data source.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that the list of data sources will be sorted alphabetically by name.</p>");
+    w.document.write("<p>To see when the list of data sources was last updated, make an HTTP <code>HEAD</code>");
+    w.document.write("request to the same URL, supplying the same parameters.  The returned response");
+    w.document.write("will have a <code>Last-Modified</code> header containing the date and time at which the");
+    w.document.write("data sources were last modified, in RFC 2822 format.</p>");
+    w.document.write("<h3>Category Groups</h3>");
+    w.document.write("<p>To obtain a list of category groups, make an HTTP <code>GET</code> request to the");
+    w.document.write("following URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://reference.3taps.com/category_groups");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The API call accepts the following parameter:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a");
+    w.document.write("Content-Type of <code>application/json</code>, and the body of the response will be a");
+    w.document.write("JSON-encoded object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the request succeeded.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the request was not successful, this will be a string describing what");
+    w.document.write("went wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>category_groups</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array of category groups.  Each item in this array will be an object");
+    w.document.write("with the following entries:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for this category group.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A human-readable name for this category group.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>To see when the list of category groups was last updated, make an HTTP <code>HEAD</code>");
+    w.document.write("request to the same URL, supplying the same parameters.  The returned response");
+    w.document.write("will have a <code>Last-Modified</code> header containing the date and time at which the");
+    w.document.write("category groups were last modified, in RFC 2822 format.</p>");
+    w.document.write("<h3>Categories</h3>");
+    w.document.write("<p>To obtain a list of categories, make an HTTP <code>GET</code> request to the following");
+    w.document.write("URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://reference.3taps.com/categories");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The API call accepts the following parameter:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a");
+    w.document.write("Content-Type of <code>application/json</code>, and the body of the response will be a");
+    w.document.write("JSON-encoded object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the request succeeded.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the request was not successful, this will be a string describing what");
+    w.document.write("went wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>categories</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array of categories.  Each item in this array will be an object with the");
+    w.document.write("following entries:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>group_name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The name of the category group this category belongs to.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>group_code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for the category group this category belongs to.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for this category.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A human-readable name for this category.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that the returned <code>categories</code> array will be sorted alphabetically by");
+    w.document.write("group name.  Within each group, the individual categories are sorted according");
+    w.document.write("to the order in which they should appear in a pick-list.  For example, the");
+    w.document.write("categories within the \"Vehicles\" group will be sorted like this:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>Autos   ");
+    w.document.write("Parts   ");
+    w.document.write("Other");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>To see when the list of categories was last updated, make an HTTP <code>HEAD</code>");
+    w.document.write("request to the same URL, supplying the same parameters.  The returned response");
+    w.document.write("will have a <code>Last-Modified</code> header containing the date and time at which the");
+    w.document.write("categories were last modified, in RFC 2822 format.</p>");
+    w.document.write("<h3>Locations</h3>");
+    w.document.write("<p>To obtain a list of locations, make an HTTP <code>GET</code> request to the following");
+    w.document.write("URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://reference.3taps.com/locations");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The API call accepts the following parameters:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>level</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired location level.  The following location levels are currently");
+    w.document.write("supported:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>country   ");
+    w.document.write("state   ");
+    w.document.write("metro   ");
+    w.document.write("region   ");
+    w.document.write("county   ");
+    w.document.write("city   ");
+    w.document.write("locality   ");
+    w.document.write("zipcode");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Some or all of the locations at the given level will be returned.  The");
+    w.document.write("following additional parameters can be used to filter the locations to return:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>country</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("country.  The parameter's value must be a valid 3taps country code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>state</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("state.  The parameter's value must be a valid 3taps state code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>metro</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("metro area.  The parameter's value must be a valid 3taps metro area code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>region</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("region.  The parameter's value must be a valid 3taps region code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>county</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("county.  The parameter's value must be a valid 3taps county code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>city</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("city.  The parameter's value must be a valid 3taps city code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>locality</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include locations that are completely or partly within the given");
+    w.document.write("locality.  The parameter's value must be a valid 3taps locality code.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>min_lat</code> <br>");
+    w.document.write("<code>min_long</code> <br>");
+    w.document.write("<code>max_lat</code> <br>");
+    w.document.write("<code>max_long</code> <em>(all optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If these parameters are supplied, only locations which are completely or");
+    w.document.write("partially enclosed by the given lat/long bounding box will be returned:</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><center>");
+    w.document.write("    <img src=\"images/reference-1.png\"/>");
+    w.document.write("</center></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>This can be useful for doing map visualisations where you only want to find");
+    w.document.write("locations that intersect with a particular area of the world.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that a caller would typically download the complete list of countries (by");
+    w.document.write("specifying the <code>level=country</code> parameter), and would then download lower-level");
+    w.document.write("locations filtered by the desired country, state, metro area, etc, as they are");
+    w.document.write("required.  This avoids downloading too many locations at once.</p>");
+    w.document.write("<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a");
+    w.document.write("Content-Type of <code>application/json</code>, and the body of the response will be a");
+    w.document.write("JSON-encoded object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the request succeeded.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the request was not successful, this will be a string describing what");
+    w.document.write("went wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>locations</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array of matching locations.  Each item in this array will be an object");
+    w.document.write("with the following entries:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for this location.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>short_name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The short name for this location, without any higher-level context.");
+    w.document.write("For example, the locality of Chinatown in San Francisco will have a");
+    w.document.write("short name of <code>Chinatown</code>.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>full_name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The full name for this location, including a context to distinguish it");
+    w.document.write("from other locations which may have the same name.  For example, the");
+    w.document.write("locality of Chinatown in San Francisco will have a full name of");
+    w.document.write("<code>Chinatown, San Francisco, CA</code>.</p>");
+    w.document.write("<p>Where there is no ambiguity, the location's full name will be the same");
+    w.document.write("as the short name.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>bounds_min_lat</code> <br>");
+    w.document.write("<code>bounds_min_long</code> <br>");
+    w.document.write("<code>bounds_max_lat</code> <br>");
+    w.document.write("<code>bounds_max_long</code>   </p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The lat/long bounding box that completely encloses this location's");
+    w.document.write("outline.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that the returned list of locations will be sorted by full name.</p>");
+    w.document.write("<p>To see when the list of locations was last updated, make an HTTP <code>HEAD</code>");
+    w.document.write("request to the same URL, supplying the same parameters.  The returned response");
+    w.document.write("will have a <code>Last-Modified</code> header containing the date and time at which the");
+    w.document.write("locations were last modified, in RFC 2822 format.  Note that the returned");
+    w.document.write("date/time is the date and time at which <em>any</em> location was last modified; the");
+    w.document.write("level and bounds filters are ignored for the <code>HEAD</code> request.</p>");
+    w.document.write("<h3>Location Lookups</h3>");
+    w.document.write("<p>The find the details of a single location based on its 3taps location code, you");
+    w.document.write("can make an HTTP <code>GET</code> request to the following URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://reference.3taps.com/locations/lookup");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The API call accepts the following parameters:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>code</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps location code for the desired location.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a");
+    w.document.write("Content-Type of <code>application/json</code>, and the body of the response will be a");
+    w.document.write("JSON-encoded object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the request succeeded.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the request was not successful, this will be a string describing what");
+    w.document.write("went wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An object containing the details of the matching location.  This object");
+    w.document.write("will have the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>code</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps code for this location.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>level</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The level of this location.  This will be a string with one of the");
+    w.document.write("following values:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>country   ");
+    w.document.write("state   ");
+    w.document.write("metro   ");
+    w.document.write("region   ");
+    w.document.write("county   ");
+    w.document.write("city   ");
+    w.document.write("locality   ");
+    w.document.write("zipcode");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>short_name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The short name for this location, without any higher-level context.");
+    w.document.write("For example, the locality of Chinatown in San Francisco will have a");
+    w.document.write("short name of <code>Chinatown</code>.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>full_name</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The full name for this location, including a context to distinguish it");
+    w.document.write("from other locations which may have the same name.  For example, the");
+    w.document.write("locality of Chinatown in San Francisco will have a full name of");
+    w.document.write("<code>Chinatown, San Francisco, CA</code>.</p>");
+    w.document.write("<p>Where there is no ambiguity, the location's full name will be the same");
+    w.document.write("as the short name.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>bounds_min_lat</code> <br>");
+    w.document.write("<code>bounds_min_long</code> <br>");
+    w.document.write("<code>bounds_max_lat</code> <br>");
+    w.document.write("<code>bounds_max_long</code>   </p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The lat/long bounding box that completely encloses this location's");
+    w.document.write("outline.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("  </body>");
+    w.document.write("</html>");
+    w.print();
+    w.close();
+    return true;
+  }
+</script>
+  </head>
+  <body class="normal">
+    <div class="header">
+      <div class="backlink">
+  <a href="http://docs.3taps.com/index.html">Back</a>
+</div>
+<div class="print_link">
+  <a href="#" onclick="do_print()">Print</a>
+</div>
+<div class="version_selector">
+  <span>
+view
+&nbsp;
+<select size="1" onchange="document.location.href=this.value">
+<option value="" selected="selected">the latest version</option>
+<option value="reference_api-since-1378192241.html">changes made since the version dated 03 Sep 2013, 07:10 PM</option>
+<option value="reference_api-since-1370368555.html">changes made since the version dated 05 Jun 2013, 05:55 AM</option>
+<option value="reference_api-since-1368656040.html">changes made since the version dated 16 May 2013, 10:14 AM</option>
+<option value="reference_api-since-1368125010.html">changes made since the version dated 10 May 2013, 06:43 AM</option>
+<option value="reference_api-since-1366667164.html">changes made since the version dated 23 Apr 2013, 09:46 AM</option>
+<option value="reference_api-since-1365546801.html">changes made since the version dated 10 Apr 2013, 10:33 AM</option>
+</select>
+</span>
+</div>
+    </div>
+    <div class="contents">
+      <div id="wrapper">
+        <p></p><center>
+    <h1>
+        The 3taps Data Commons
+    </h1>
+    <h3>
+        The Reference API
+    </h3>
+</center><p></p>
+<p>The 3taps Reference API provides information about the data sources, category
+groups, categories and locations available within the 3taps system.  This
+information can be used by external systems to do things such as displaying a
+pick-list of available categories, translating location codes into location
+names, etc.</p>
+<h3>Caching Reference Data</h3>
+<p>External systems will often need to download and store a local cache of the
+reference data.  To allow for this, the Reference API can tell the caller when
+a particular piece of information was last changed.  The external system can
+then check the modification date to see if a piece of reference information has
+changed, and if so download the data again.  This check can either be done
+periodically (eg, once per hour), or it can be done automatically each time the
+reference information is needed.</p>
+<p>To see when a particular piece of reference data was last changed, make an HTTP
+<code>HEAD</code> request with the same URL as the data to be requested.  The server will
+return a response with no body, but with a <code>Last-Modified</code> header that contains
+the date and time at which the given piece of information was last changed.</p>
+<h3>Data Sources</h3>
+<p>To obtain a list of data sources, make an HTTP <code>GET</code> request to the following
+URL:</p>
+<blockquote>
+<pre><code>http://reference.3taps.com/sources
+</code></pre>
+</blockquote>
+<p>The API call accepts the following parameter:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+</blockquote>
+<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a
+Content-Type of <code>application/json</code>, and the body of the response will be a
+JSON-encoded object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the request succeeded.</p>
+<blockquote>
+<hr>
+<p>Note that this is only provided for consistency with the other Reference
+API calls; errors are not possible for this particular call.</p>
+<hr>
+</blockquote>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the request was not successful, this will be a string describing what
+went wrong.</p>
+</blockquote>
+<p><code>sources</code></p>
+<blockquote>
+<p>An array of data sources.  Each item in this array will be an object with
+the following entries:</p>
+<blockquote>
+<p><code>code</code></p>
+<blockquote>
+<p>The 3taps code for this data source.</p>
+</blockquote>
+<p><code>name</code></p>
+<blockquote>
+<p>The human-readable name for this data source.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Note that the list of data sources will be sorted alphabetically by name.</p>
+<p>To see when the list of data sources was last updated, make an HTTP <code>HEAD</code>
+request to the same URL, supplying the same parameters.  The returned response
+will have a <code>Last-Modified</code> header containing the date and time at which the
+data sources were last modified, in RFC 2822 format.</p>
+<h3>Category Groups</h3>
+<p>To obtain a list of category groups, make an HTTP <code>GET</code> request to the
+following URL:</p>
+<blockquote>
+<pre><code>http://reference.3taps.com/category_groups
+</code></pre>
+</blockquote>
+<p>The API call accepts the following parameter:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+</blockquote>
+<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a
+Content-Type of <code>application/json</code>, and the body of the response will be a
+JSON-encoded object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the request succeeded.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the request was not successful, this will be a string describing what
+went wrong.</p>
+</blockquote>
+<p><code>category_groups</code></p>
+<blockquote>
+<p>An array of category groups.  Each item in this array will be an object
+with the following entries:</p>
+<blockquote>
+<p><code>code</code></p>
+<blockquote>
+<p>The 3taps code for this category group.</p>
+</blockquote>
+<p><code>name</code></p>
+<blockquote>
+<p>A human-readable name for this category group.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>To see when the list of category groups was last updated, make an HTTP <code>HEAD</code>
+request to the same URL, supplying the same parameters.  The returned response
+will have a <code>Last-Modified</code> header containing the date and time at which the
+category groups were last modified, in RFC 2822 format.</p>
+<h3>Categories</h3>
+<p>To obtain a list of categories, make an HTTP <code>GET</code> request to the following
+URL:</p>
+<blockquote>
+<pre><code>http://reference.3taps.com/categories
+</code></pre>
+</blockquote>
+<p>The API call accepts the following parameter:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+</blockquote>
+<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a
+Content-Type of <code>application/json</code>, and the body of the response will be a
+JSON-encoded object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the request succeeded.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the request was not successful, this will be a string describing what
+went wrong.</p>
+</blockquote>
+<p><code>categories</code></p>
+<blockquote>
+<p>An array of categories.  Each item in this array will be an object with the
+following entries:</p>
+<blockquote>
+<p><code>group_name</code></p>
+<blockquote>
+<p>The name of the category group this category belongs to.</p>
+</blockquote>
+<p><code>group_code</code></p>
+<blockquote>
+<p>The 3taps code for the category group this category belongs to.</p>
+</blockquote>
+<p><code>code</code></p>
+<blockquote>
+<p>The 3taps code for this category.</p>
+</blockquote>
+<p><code>name</code></p>
+<blockquote>
+<p>A human-readable name for this category.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Note that the returned <code>categories</code> array will be sorted alphabetically by
+group name.  Within each group, the individual categories are sorted according
+to the order in which they should appear in a pick-list.  For example, the
+categories within the "Vehicles" group will be sorted like this:</p>
+<blockquote>
+<pre><code>Autos   
+Parts   
+Other
+</code></pre>
+</blockquote>
+<p>To see when the list of categories was last updated, make an HTTP <code>HEAD</code>
+request to the same URL, supplying the same parameters.  The returned response
+will have a <code>Last-Modified</code> header containing the date and time at which the
+categories were last modified, in RFC 2822 format.</p>
+<h3>Locations</h3>
+<p>To obtain a list of locations, make an HTTP <code>GET</code> request to the following
+URL:</p>
+<blockquote>
+<pre><code>http://reference.3taps.com/locations
+</code></pre>
+</blockquote>
+<p>The API call accepts the following parameters:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+<p><code>level</code> <em>(required)</em></p>
+<blockquote>
+<p>The desired location level.  The following location levels are currently
+supported:</p>
+<blockquote>
+<pre><code>country   
+state   
+metro   
+region   
+county   
+city   
+locality   
+zipcode
+</code></pre>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Some or all of the locations at the given level will be returned.  The
+following additional parameters can be used to filter the locations to return:</p>
+<blockquote>
+<p><code>country</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+country.  The parameter's value must be a valid 3taps country code.</p>
+</blockquote>
+<p><code>state</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+state.  The parameter's value must be a valid 3taps state code.</p>
+</blockquote>
+<p><code>metro</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+metro area.  The parameter's value must be a valid 3taps metro area code.</p>
+</blockquote>
+<p><code>region</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+region.  The parameter's value must be a valid 3taps region code.</p>
+</blockquote>
+<p><code>county</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+county.  The parameter's value must be a valid 3taps county code.</p>
+</blockquote>
+<p><code>city</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+city.  The parameter's value must be a valid 3taps city code.</p>
+</blockquote>
+<p><code>locality</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include locations that are completely or partly within the given
+locality.  The parameter's value must be a valid 3taps locality code.</p>
+</blockquote>
+<p><code>min_lat</code> <br>
+<code>min_long</code> <br>
+<code>max_lat</code> <br>
+<code>max_long</code> <em>(all optional)</em></p>
+<blockquote>
+<p>If these parameters are supplied, only locations which are completely or
+partially enclosed by the given lat/long bounding box will be returned:</p>
+</blockquote>
+</blockquote>
+<p></p><center>
+    <img src="referenceapi_files/reference-1.png">
+</center><p></p>
+<blockquote>
+<blockquote>
+<p>This can be useful for doing map visualisations where you only want to find
+locations that intersect with a particular area of the world.</p>
+</blockquote>
+</blockquote>
+<p>Note that a caller would typically download the complete list of countries (by
+specifying the <code>level=country</code> parameter), and would then download lower-level
+locations filtered by the desired country, state, metro area, etc, as they are
+required.  This avoids downloading too many locations at once.</p>
+<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a
+Content-Type of <code>application/json</code>, and the body of the response will be a
+JSON-encoded object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the request succeeded.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the request was not successful, this will be a string describing what
+went wrong.</p>
+</blockquote>
+<p><code>locations</code></p>
+<blockquote>
+<p>An array of matching locations.  Each item in this array will be an object
+with the following entries:</p>
+<blockquote>
+<p><code>code</code></p>
+<blockquote>
+<p>The 3taps code for this location.</p>
+</blockquote>
+<p><code>short_name</code></p>
+<blockquote>
+<p>The short name for this location, without any higher-level context.
+For example, the locality of Chinatown in San Francisco will have a
+short name of <code>Chinatown</code>.</p>
+</blockquote>
+<p><code>full_name</code></p>
+<blockquote>
+<p>The full name for this location, including a context to distinguish it
+from other locations which may have the same name.  For example, the
+locality of Chinatown in San Francisco will have a full name of
+<code>Chinatown, San Francisco, CA</code>.</p>
+<p>Where there is no ambiguity, the location's full name will be the same
+as the short name.</p>
+</blockquote>
+<p><code>bounds_min_lat</code> <br>
+<code>bounds_min_long</code> <br>
+<code>bounds_max_lat</code> <br>
+<code>bounds_max_long</code>   </p>
+<blockquote>
+<p>The lat/long bounding box that completely encloses this location's
+outline.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Note that the returned list of locations will be sorted by full name.</p>
+<p>To see when the list of locations was last updated, make an HTTP <code>HEAD</code>
+request to the same URL, supplying the same parameters.  The returned response
+will have a <code>Last-Modified</code> header containing the date and time at which the
+locations were last modified, in RFC 2822 format.  Note that the returned
+date/time is the date and time at which <em>any</em> location was last modified; the
+level and bounds filters are ignored for the <code>HEAD</code> request.</p>
+<h3>Location Lookups</h3>
+<p>The find the details of a single location based on its 3taps location code, you
+can make an HTTP <code>GET</code> request to the following URL:</p>
+<blockquote>
+<pre><code>http://reference.3taps.com/locations/lookup
+</code></pre>
+</blockquote>
+<p>The API call accepts the following parameters:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+<p><code>code</code> <em>(required)</em></p>
+<blockquote>
+<p>The 3taps location code for the desired location.</p>
+</blockquote>
+</blockquote>
+<p>Upon completion, this API call will return an HTTP status code of 200 (OK), a
+Content-Type of <code>application/json</code>, and the body of the response will be a
+JSON-encoded object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the request succeeded.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the request was not successful, this will be a string describing what
+went wrong.</p>
+</blockquote>
+<p><code>location</code></p>
+<blockquote>
+<p>An object containing the details of the matching location.  This object
+will have the following fields:</p>
+<blockquote>
+<p><code>code</code></p>
+<blockquote>
+<p>The 3taps code for this location.</p>
+</blockquote>
+<p><code>level</code></p>
+<blockquote>
+<p>The level of this location.  This will be a string with one of the
+following values:</p>
+<blockquote>
+<pre><code>country   
+state   
+metro   
+region   
+county   
+city   
+locality   
+zipcode
+</code></pre>
+</blockquote>
+</blockquote>
+<p><code>short_name</code></p>
+<blockquote>
+<p>The short name for this location, without any higher-level context.
+For example, the locality of Chinatown in San Francisco will have a
+short name of <code>Chinatown</code>.</p>
+</blockquote>
+<p><code>full_name</code></p>
+<blockquote>
+<p>The full name for this location, including a context to distinguish it
+from other locations which may have the same name.  For example, the
+locality of Chinatown in San Francisco will have a full name of
+<code>Chinatown, San Francisco, CA</code>.</p>
+<p>Where there is no ambiguity, the location's full name will be the same
+as the short name.</p>
+</blockquote>
+<p><code>bounds_min_lat</code> <br>
+<code>bounds_min_long</code> <br>
+<code>bounds_max_lat</code> <br>
+<code>bounds_max_long</code>   </p>
+<blockquote>
+<p>The lat/long bounding box that completely encloses this location's
+outline.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+      </div>
+    </div>
+  
+
+</body></html>

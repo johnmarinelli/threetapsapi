@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>3taps Data Commons Polling API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="pollingapi_files/stylesheet.css">
+    <script type="text/javascript">
+  function do_print() {
+    var w = window.open("", "_blank", "height=400,width=600,location=0");
+    w.document.write("<html>");
+    w.document.write("  <head>");
+    w.document.write("    <title>3taps Data Commons Polling API</title>");
+    w.document.write("   <link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\">");
+    w.document.write("  </head>");
+    w.document.write("  <body>");
+    w.document.write("<p><center>");
+    w.document.write("    <h1>");
+    w.document.write("        The 3taps Data Commons");
+    w.document.write("    </h1>");
+    w.document.write("    <h3>");
+    w.document.write("        The Polling API");
+    w.document.write("    </h3>");
+    w.document.write("</center></p>");
+    w.document.write("<p>The 3taps Polling API makes it possible for external systems to \"poll\" the Data");
+    w.document.write("Commons server to obtain a list of new and updated postings as they come in.</p>");
+    w.document.write("<h3>The Nature of Polling</h3>");
+    w.document.write("<p>All postings are ordered by the date and time at which they are inserted,");
+    w.document.write("updated or deleted, like this:</p>");
+    w.document.write("<p><center>");
+    w.document.write("    <img src=\"images/polling-1.png\"/>");
+    w.document.write("</center></p>");
+    w.document.write("<p>As time goes on, this forms a \"stream\" of newly-inserted, updated, and deleted");
+    w.document.write("postings.</p>");
+    w.document.write("<p>When you issue a <code>/poll</code> request, you are interested in finding all the <strong>new</strong>");
+    w.document.write("postings which have been received (or updated, or deleted) since you last made");
+    w.document.write("a request -- that is, all the new entries in the posting stream:</p>");
+    w.document.write("<p><center>");
+    w.document.write("    <img src=\"images/polling-2.png\"/>");
+    w.document.write("</center></p>");
+    w.document.write("<p>Because a large number of postings may have come in since the last time you");
+    w.document.write("issued a polling request, you may not get all the postings at once.  However,");
+    w.document.write("making multiple requests to the Polling API will allow you to eventually catch");
+    w.document.write("up.</p>");
+    w.document.write("<p>Note that, while postings are ordered by date and time, a timestamp value");
+    w.document.write("is not accurate enough to use for looking for new postings.  Timestamp values");
+    w.document.write("are only accurate to the nearest second, and it is highly likely that multiple");
+    w.document.write("postings come in within the same second.  For this reason, the <code>/poll</code> API call");
+    w.document.write("makes use of the concept of an <strong>anchor</strong>.  The anchor is a value that");
+    w.document.write("uniquely identifies a point in the posting stream.  When you poll, you are");
+    w.document.write("looking for entries in the posting stream that are more recent than the");
+    w.document.write("position identified by the anchor:</p>");
+    w.document.write("<p><center>");
+    w.document.write("    <img src=\"images/polling-3.png\"/>");
+    w.document.write("</center></p>");
+    w.document.write("<p>By default, when you make a request to the Polling API without an anchor, the");
+    w.document.write("API will return no postings but an anchor value that represents the most recent");
+    w.document.write("entry in the posting stream.  Thus, subsequent calls to the Polling API will");
+    w.document.write("return any new postings, updates and deletions which have come in since that");
+    w.document.write("time.</p>");
+    w.document.write("<p>Note that an anchor is <strong><em>not</em></strong> a posting ID, or a timestamp, or any other");
+    w.document.write("value which can be interpreted by the system calling the API.  The anchor");
+    w.document.write("should be an opaque data structure (usually represented as a string) that");
+    w.document.write("uniquely refers to a given position within the posting stream.  Internally, the");
+    w.document.write("Polling API may choose to implement the anchor as a timestamp accurate to the");
+    w.document.write("nearest microsecond (though this may still not work if the postings are not");
+    w.document.write("inserted/updated in the database with microsecond accuracy), or it may choose");
+    w.document.write("to use an internal \"update identifier\" that points to a given position within");
+    w.document.write("the stream of inserted/updated/deleted postings.  However it does it, the");
+    w.document.write("Polling API should <em>obfuscate</em> the anchor so that callers cannot interpret or");
+    w.document.write("use this value for anything other than future calls to the Polling API.</p>");
+    w.document.write("<p>Finally, because you might want to populate an external database with a");
+    w.document.write("representative sample of postings, without having to wait for new postings to");
+    w.document.write("come in, the Polling API allows you to set the anchor to some point in the");
+    w.document.write("past.  Using this <code>anchor</code> API call, you can obtain an anchor value to use");
+    w.document.write("when polling the database, retrieving all postings that have been inserted");
+    w.document.write("or updated since a given point in time.</p>");
+    w.document.write("<h3>Calling the 3taps Polling API</h3>");
+    w.document.write("<p>The Polling API is accessed via the following base URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://polling.3taps.com");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The following API calls are supported by the Polling API:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>anchor</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Calculate the anchor value to use for the most recent posting received");
+    w.document.write("since a given point in time.  This allows you to \"go back\" and poll for");
+    w.document.write("postings that have been added, updated and deleted sometime in the past.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>poll</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Retrieve any postings which have been added, updated or deleted since the");
+    w.document.write("last time the <code>poll</code> call was made, or since a given anchor value retrieved");
+    w.document.write("via an <code>anchor</code> call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Let's take a closer look at each of these API calls in turn.</p>");
+    w.document.write("<h3>The \"Anchor\" API Call</h3>");
+    w.document.write("<p>The <code>anchor</code> API call is intended to let users of the Data Commons poll for");
+    w.document.write("older postings.  This is mainly useful for testing, or for situations where you");
+    w.document.write("want to download a dump of all the postings that have come in since a given");
+    w.document.write("point in time (for example, to pre-load a visualisation of the posting stream)</p>");
+    w.document.write("<p>To start polling from a given point in time, you should make an HTTP <code>GET</code>");
+    w.document.write("request to the following URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://polling.3taps.com/anchor");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>The following parameters should be supplied, usually in the form of a");
+    w.document.write("URL-encoded parameter:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>timestamp</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired date and time, as an integer number of seconds since the 1st of");
+    w.document.write("January 1970 (\"unix time\"), in UTC.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, the Polling API will send back a response of type");
+    w.document.write("<code>application/json</code>, and the body of the response will be a JSON-formatted");
+    w.document.write("object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>This will be set to <code>true</code> if an anchor value could be successfully");
+    w.document.write("calculated.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>anchor</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The calculated anchor value, if one was calculated, in the form of a");
+    w.document.write("string.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string describing what went wrong, if the anchor could not be calculated.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<h3>The \"Poll\" API Call</h3>");
+    w.document.write("<p>The <code>poll</code> API call retrieves a set of new postings from the database.  This");
+    w.document.write("call should be made using an HTTP <code>GET</code> request to the following URL:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>http://polling.3taps.com/poll");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>This API call accepts the following parameters:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>auth_token</code> <em>(required)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The authentication token used to ensure that you are authorized to make");
+    w.document.write("this API call.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>anchor</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The anchor value to use for this polling request.  Note that this parameter");
+    w.document.write("is optional -- if no anchor is supplied, the API call will return an empty");
+    w.document.write("list of postings, along with a new <code>anchor</code> value that can be used to");
+    w.document.write("retrieve new, updated and deleted postings that have come in since the last");
+    w.document.write("time this API call was made.  This has the effect of polling \"from now on\".</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>source</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps data source code.  If this is supplied, only postings");
+    w.document.write("from the given data source will be included in the polling results.  Note");
+    w.document.write("that this parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>category_group</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps category group code.  If this is supplied, only postings");
+    w.document.write("with the given category group will be included in the polling results.");
+    w.document.write("Note that this parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>category</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps category code.  If this is supplied, only postings with");
+    w.document.write("the given category will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.country</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps country code.  If this is supplied, only postings in the");
+    w.document.write("given country will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.state</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps state code.  If this is supplied, only postings in the");
+    w.document.write("given state will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.metro</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps metro area code.  If this is supplied, only postings in");
+    w.document.write("the given metro area will be included in the polling results.  Note that");
+    w.document.write("this parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.region</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps region code.  If this is supplied, only postings in the");
+    w.document.write("given region will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.county</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps county code.  If this is supplied, only postings in the");
+    w.document.write("given county will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.city</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps city code.  If this is supplied, only postings in the");
+    w.document.write("given city will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.locality</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps locality code.  If this is supplied, only postings in the");
+    w.document.write("given locality will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location.zipcode</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The desired 3taps ZIP code.  If this is supplied, only postings in the");
+    w.document.write("given ZIP code will be included in the polling results.  Note that this");
+    w.document.write("parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>status</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include postings with the given status value.  The following status");
+    w.document.write("values are currently supported:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>registered</strong> <br>");
+    w.document.write("<strong>for_sale</strong> <br>");
+    w.document.write("<strong>for_hire</strong> <br>");
+    w.document.write("<strong>for_rent</strong><br>");
+    w.document.write("<strong>wanted</strong> <br>");
+    w.document.write("<strong>lost</strong> <br>");
+    w.document.write("<strong>stolen</strong> <br>");
+    w.document.write("<strong>found</strong>   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that this parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>state</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>Only include postings in the given state.  The following state values are");
+    w.document.write("currently supported:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>available</strong> <br>");
+    w.document.write("<strong>unavailable</strong> <br>");
+    w.document.write("<strong>expired</strong>   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Note that this parameter can include logical operators, as described below.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>retvals</code> <em>(optional)</em></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string listing the fields which should be returned back to the caller.");
+    w.document.write("The various fields should be separated by commas.  At present, the");
+    w.document.write("following fields can be included in this parameter:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>id</strong> <br>");
+    w.document.write("<strong>account_id</strong> <br>");
+    w.document.write("<strong>source</strong> <br>");
+    w.document.write("<strong>category</strong> <br>");
+    w.document.write("<strong>category_group</strong> <br>");
+    w.document.write("<strong>location</strong> <br>");
+    w.document.write("<strong>external_id</strong> <br>");
+    w.document.write("<strong>external_url</strong> <br>");
+    w.document.write("<strong>heading</strong> <br>");
+    w.document.write("<strong>body</strong> <br>");
+    w.document.write("<strong>timestamp</strong> <br>");
+    w.document.write("<strong>timestamp_deleted</strong> <br>");
+    w.document.write("<strong>expires</strong> <br>");
+    w.document.write("<strong>language</strong> <br>");
+    w.document.write("<strong>price</strong> <br>");
+    w.document.write("<strong>currency</strong> <br>");
+    w.document.write("<strong>images</strong> <br>");
+    w.document.write("<strong>annotations</strong> <br>");
+    w.document.write("<strong>status</strong> <br>");
+    w.document.write("<strong>state</strong> <br>");
+    w.document.write("<strong>immortal</strong> <br>");
+    w.document.write("<strong>deleted</strong> <br>");
+    w.document.write("<strong>flagged_status</strong>      </p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>If no <code>retvals</code> parameter is provided, the following default will be used:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>id</strong>");
+    w.document.write("<strong>source</strong> <br>");
+    w.document.write("<strong>category</strong> <br>");
+    w.document.write("<strong>location</strong> <br>");
+    w.document.write("<strong>external_id</strong> <br>");
+    w.document.write("<strong>external_url</strong> <br>");
+    w.document.write("<strong>heading</strong> <br>");
+    w.document.write("<strong>timestamp</strong>   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>Upon completion, the Polling API will send back a response of type");
+    w.document.write("<code>application/json</code>, where the body of the response will be a JSON-formatted");
+    w.document.write("object with some combination of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>success</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A boolean indicating whether or not the polling attempt was successful.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>error</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>If the polling attempt failed, this will be a string describing what went");
+    w.document.write("wrong.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>anchor</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>This string will contain the anchor value to use the next time the <code>poll</code>");
+    w.document.write("API call is made.  Using this anchor will ensure that only newly-inserted,");
+    w.document.write("updated or deleted postings will be included in the next poll request.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>postings</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array containing the found postings, sorted by the date and time at");
+    w.document.write("which the postings were inserted, updated or deleted.  Each entry in this");
+    w.document.write("array will be an object with all or some of the following fields, depending");
+    w.document.write("on the value of the <code>retvals</code> parameter, above:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>id</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The internal record ID used to uniquely identify this posting.  Note");
+    w.document.write("that this will be a (possibly very large) integer.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>account_id</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string identifying the user who submitted the posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>source</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The code for the source system where this posting originated from.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>category</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps category code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>category_group</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps category group code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>location</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An object with some or all of the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>lat</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The latitude of this posting, in decimal degrees.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>long</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The longitude of this posting, in decimal degrees.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>accuracy</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An integer indicating the accuracy of the supplied lat/long value.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>country</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps country code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>state</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps state code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>metro</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps metro area code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>region</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps region code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>county</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps county code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>city</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps city code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>locality</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps locality code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>zipcode</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3taps ZIP code for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>formatted_address</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string containing the address associated with this posting as a");
+    w.document.write("one-line string, if this information is available.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>external_id</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string that uniquely identifies the posting in the source system.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>external_url</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A URL pointing to the original posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>heading</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string containing the heading for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>body</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A string containing the body of this posting, in plain (unformatted)");
+    w.document.write("text.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>timestamp</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The date and time at which the posting was created, as an integer");
+    w.document.write("number of seconds since the 1st of January 1970 (\"unix time\"), in UTC.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>timestamp_deleted</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The date and time at which the posting was deleted, as an integer");
+    w.document.write("number of seconds since the 1st of January 1970 (\"unix time\"), in UTC.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>expires</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The date and time at which this posting should expire, as an integer");
+    w.document.write("number of seconds since the 1st of January 1970 (\"unix time\"), in UTC. </p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>language</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 2-character ISO 639-1 language code indicating which language the");
+    w.document.write("posting is in.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>price</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The price associated with this posting, if any.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>currency</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The 3-character ISO-4217 currency code indicating which currency the");
+    w.document.write("price is in.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>images</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>An array of image objects representing the images associated with this");
+    w.document.write("posting. Each image object can have the following fields:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>full</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The URL pointing to the full-sized image for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>full_width</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The width, in pixels, for the full-sized image, if known.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>full_height</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The height, in pixels, for the full-sized image, if known.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>thumbnail</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The URL pointing to a thumbnail-sized image for this posting.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>thumbnail_width</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The width, in pixels, for the thumbnail-sized image, if known.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>thumbnail_height</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The height, in pixels, for the thumbnail-sized image, if known.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>annotations</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A object holding the various annotations to associate with this");
+    w.document.write("posting. Each field in this object maps the annotation name to its");
+    w.document.write("associated value, formatted as a string.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>status</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The posting's current status.  This will be one of the following");
+    w.document.write("values:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>registered</code> <br>");
+    w.document.write("<code>for_sale</code> <br>");
+    w.document.write("<code>for_hire</code> <br>");
+    w.document.write("<code>for_rent</code><br>");
+    w.document.write("<code>wanted</code> <br>");
+    w.document.write("<code>lost</code> <br>");
+    w.document.write("<code>stolen</code> <br>");
+    w.document.write("<code>found</code>   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>state</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>The state the posting is in.  This will be one of the following values:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>available</code> <br>");
+    w.document.write("<code>unavailable</code> <br>");
+    w.document.write("<code>expired</code>   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>immortal</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>true</strong> if the posting is immortal (ie, never expires), <strong>false</strong>");
+    w.document.write("otherwise.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>deleted</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><strong>true</strong> if the posting has been deleted, <strong>false</strong> otherwise.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><code>flagged_status</code></p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p>A number indicating the current \"flagged\" status of the posting.  This");
+    w.document.write("will be one of the following values:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<p><code>0</code> = The posting has never been flagged. <br>");
+    w.document.write("<code>1</code> = The posting has been flagged by a user. <br>");
+    w.document.write("<code>2</code> = The flagged status was overruled.   </p>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("</blockquote>");
+    w.document.write("<p><strong>Notes:</strong></p>");
+    w.document.write("<ol>");
+    w.document.write("<li>");
+    w.document.write("<p>The maximum number of matching postings returned by a single call to the");
+    w.document.write("    <code>poll</code> API endpoint depends on which fields you asked to be returned:");
+    w.document.write("<br/><br/></p>");
+    w.document.write("<ul>");
+    w.document.write("<li>If <code>retvals</code> includes the <strong>body</strong> field, then a limit of 100 postings");
+    w.document.write("   will be enforced.");
+    w.document.write("<br/><br/></li>");
+    w.document.write("<li>If <code>retvals</code> consists only of the <strong>id</strong> field, then there is a limit of");
+    w.document.write("   10,000 postings per API call.");
+    w.document.write("<br/><br/></li>");
+    w.document.write("<li>For any other combination of fields, a maximum of up to 1,000 postings");
+    w.document.write("   will be returned.");
+    w.document.write("<br/><br/></li>");
+    w.document.write("</ul>");
+    w.document.write("<p>These limits keep the size of the data returned by the server down to a");
+    w.document.write("reasonable level, ensuring the server isn't overloaded with large requests.</p>");
+    w.document.write("<p>If more postings are required, you should make another <code>poll</code> request, using");
+    w.document.write("the returned <code>anchor</code> value, and keep going until you have either retrieved");
+    w.document.write("as many postings as you want, or there are no more postings to retrieve (in");
+    w.document.write("which case, the returned <code>postings</code> array will be empty).");
+    w.document.write("<br><br>");
+    w.document.write(" 2. If there are no new postings, the Polling API will return the following");
+    w.document.write("results:</p>");
+    w.document.write("</li>");
+    w.document.write("</ol>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code> {\"success\" : true,");
+    w.document.write("  \"postings\": []");
+    w.document.write(" }");
+    w.document.write("</code></pre>");
+    w.document.write("<p>It is not considered to be an error if there are no new postings.</p>");
+    w.document.write("</blockquote>");
+    w.document.write("<h3>Logical Operators</h3>");
+    w.document.write("<p>A number of parameters can make use of <em>logical operators</em> to allow for more");
+    w.document.write("sophisticated polling options.  For these parameters, a single value can be");
+    w.document.write("supplied simply by providing the value itself, like this:</p>");
+    w.document.write("<blockquote>");
+    w.document.write("<pre><code>category=SBIK");
+    w.document.write("</code></pre>");
+    w.document.write("</blockquote>");
+    w.document.write("<p>However, special characters can be used to change the way in which the");
+    w.document.write("parameter is interpreted.  Two special characters are currently supported:</p>");
+    w.document.write("<ul>");
+    w.document.write("<li>");
+    w.document.write("<p>The vertical bar or \"pipe\" character (\"<code>|</code>\") is used to calculate the");
+    w.document.write("   logical <strong>OR</strong> of two or more values.  For example:</p>");
+    w.document.write("<pre><code>  category=SBIK|SCAR");
+    w.document.write("</code></pre>");
+    w.document.write("<p>This means that the polling request would include postings with a category");
+    w.document.write(" of either <code>SBIK</code> or <code>SCAR</code>.  Note that you can combine as many values as");
+    w.document.write(" you like using the <code>|</code> operator:</p>");
+    w.document.write("<pre><code>  category=SBIK|SCAR|STRU|SANT|...");
+    w.document.write("</code></pre>");
+    w.document.write("</li>");
+    w.document.write("<li>");
+    w.document.write("<p>The tilda character (\"<code>~</code>\") is used as a logical <strong>NOT</strong> operator.  For");
+    w.document.write("   example:</p>");
+    w.document.write("<pre><code>  category=~SBIK");
+    w.document.write("</code></pre>");
+    w.document.write("<p>would include all postings with a category that is not equal to <code>SBIK</code>.</p>");
+    w.document.write("</li>");
+    w.document.write("</ul>");
+    w.document.write("  </body>");
+    w.document.write("</html>");
+    w.print();
+    w.close();
+    return true;
+  }
+</script>
+  </head>
+  <body class="normal">
+    <div class="header">
+      <div class="backlink">
+  <a href="http://docs.3taps.com/index.html">Back</a>
+</div>
+<div class="print_link">
+  <a href="#" onclick="do_print()">Print</a>
+</div>
+<div class="version_selector">
+  <span>
+view
+&nbsp;
+<select size="1" onchange="document.location.href=this.value">
+<option value="" selected="selected">the latest version</option>
+<option value="polling_api-since-1399324301.html">changes made since the version dated 06 May 2014, 09:11 AM</option>
+<option value="polling_api-since-1378872424.html">changes made since the version dated 11 Sep 2013, 04:07 PM</option>
+<option value="polling_api-since-1378781048.html">changes made since the version dated 10 Sep 2013, 02:44 PM</option>
+<option value="polling_api-since-1377560862.html">changes made since the version dated 27 Aug 2013, 11:47 AM</option>
+<option value="polling_api-since-1375664884.html">changes made since the version dated 05 Aug 2013, 01:08 PM</option>
+<option value="polling_api-since-1368656040.html">changes made since the version dated 16 May 2013, 10:14 AM</option>
+<option value="polling_api-since-1368591238.html">changes made since the version dated 15 May 2013, 04:13 PM</option>
+<option value="polling_api-since-1368477767.html">changes made since the version dated 14 May 2013, 08:42 AM</option>
+<option value="polling_api-since-1368125010.html">changes made since the version dated 10 May 2013, 06:43 AM</option>
+<option value="polling_api-since-1365791543.html">changes made since the version dated 13 Apr 2013, 06:32 AM</option>
+<option value="polling_api-since-1365559859.html">changes made since the version dated 10 Apr 2013, 02:10 PM</option>
+<option value="polling_api-since-1365546801.html">changes made since the version dated 10 Apr 2013, 10:33 AM</option>
+</select>
+</span>
+</div>
+    </div>
+    <div class="contents">
+      <div id="wrapper">
+        <p></p><center>
+    <h1>
+        The 3taps Data Commons
+    </h1>
+    <h3>
+        The Polling API
+    </h3>
+</center><p></p>
+<p>The 3taps Polling API makes it possible for external systems to "poll" the Data
+Commons server to obtain a list of new and updated postings as they come in.</p>
+<h3>The Nature of Polling</h3>
+<p>All postings are ordered by the date and time at which they are inserted,
+updated or deleted, like this:</p>
+<p></p><center>
+    <img src="pollingapi_files/polling-1.png">
+</center><p></p>
+<p>As time goes on, this forms a "stream" of newly-inserted, updated, and deleted
+postings.</p>
+<p>When you issue a <code>/poll</code> request, you are interested in finding all the <strong>new</strong>
+postings which have been received (or updated, or deleted) since you last made
+a request -- that is, all the new entries in the posting stream:</p>
+<p></p><center>
+    <img src="pollingapi_files/polling-2.png">
+</center><p></p>
+<p>Because a large number of postings may have come in since the last time you
+issued a polling request, you may not get all the postings at once.  However,
+making multiple requests to the Polling API will allow you to eventually catch
+up.</p>
+<p>Note that, while postings are ordered by date and time, a timestamp value
+is not accurate enough to use for looking for new postings.  Timestamp values
+are only accurate to the nearest second, and it is highly likely that multiple
+postings come in within the same second.  For this reason, the <code>/poll</code> API call
+makes use of the concept of an <strong>anchor</strong>.  The anchor is a value that
+uniquely identifies a point in the posting stream.  When you poll, you are
+looking for entries in the posting stream that are more recent than the
+position identified by the anchor:</p>
+<p></p><center>
+    <img src="pollingapi_files/polling-3.png">
+</center><p></p>
+<p>By default, when you make a request to the Polling API without an anchor, the
+API will return no postings but an anchor value that represents the most recent
+entry in the posting stream.  Thus, subsequent calls to the Polling API will
+return any new postings, updates and deletions which have come in since that
+time.</p>
+<p>Note that an anchor is <strong><em>not</em></strong> a posting ID, or a timestamp, or any other
+value which can be interpreted by the system calling the API.  The anchor
+should be an opaque data structure (usually represented as a string) that
+uniquely refers to a given position within the posting stream.  Internally, the
+Polling API may choose to implement the anchor as a timestamp accurate to the
+nearest microsecond (though this may still not work if the postings are not
+inserted/updated in the database with microsecond accuracy), or it may choose
+to use an internal "update identifier" that points to a given position within
+the stream of inserted/updated/deleted postings.  However it does it, the
+Polling API should <em>obfuscate</em> the anchor so that callers cannot interpret or
+use this value for anything other than future calls to the Polling API.</p>
+<p>Finally, because you might want to populate an external database with a
+representative sample of postings, without having to wait for new postings to
+come in, the Polling API allows you to set the anchor to some point in the
+past.  Using this <code>anchor</code> API call, you can obtain an anchor value to use
+when polling the database, retrieving all postings that have been inserted
+or updated since a given point in time.</p>
+<h3>Calling the 3taps Polling API</h3>
+<p>The Polling API is accessed via the following base URL:</p>
+<blockquote>
+<pre><code>http://polling.3taps.com
+</code></pre>
+</blockquote>
+<p>The following API calls are supported by the Polling API:</p>
+<blockquote>
+<p><code>anchor</code></p>
+<blockquote>
+<p>Calculate the anchor value to use for the most recent posting received
+since a given point in time.  This allows you to "go back" and poll for
+postings that have been added, updated and deleted sometime in the past.</p>
+</blockquote>
+<p><code>poll</code></p>
+<blockquote>
+<p>Retrieve any postings which have been added, updated or deleted since the
+last time the <code>poll</code> call was made, or since a given anchor value retrieved
+via an <code>anchor</code> call.</p>
+</blockquote>
+</blockquote>
+<p>Let's take a closer look at each of these API calls in turn.</p>
+<h3>The "Anchor" API Call</h3>
+<p>The <code>anchor</code> API call is intended to let users of the Data Commons poll for
+older postings.  This is mainly useful for testing, or for situations where you
+want to download a dump of all the postings that have come in since a given
+point in time (for example, to pre-load a visualisation of the posting stream)</p>
+<p>To start polling from a given point in time, you should make an HTTP <code>GET</code>
+request to the following URL:</p>
+<blockquote>
+<pre><code>http://polling.3taps.com/anchor
+</code></pre>
+</blockquote>
+<p>The following parameters should be supplied, usually in the form of a
+URL-encoded parameter:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+<p><code>timestamp</code> <em>(required)</em></p>
+<blockquote>
+<p>The desired date and time, as an integer number of seconds since the 1st of
+January 1970 ("unix time"), in UTC.</p>
+</blockquote>
+</blockquote>
+<p>Upon completion, the Polling API will send back a response of type
+<code>application/json</code>, and the body of the response will be a JSON-formatted
+object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>This will be set to <code>true</code> if an anchor value could be successfully
+calculated.</p>
+</blockquote>
+<p><code>anchor</code></p>
+<blockquote>
+<p>The calculated anchor value, if one was calculated, in the form of a
+string.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>A string describing what went wrong, if the anchor could not be calculated.</p>
+</blockquote>
+</blockquote>
+<h3>The "Poll" API Call</h3>
+<p>The <code>poll</code> API call retrieves a set of new postings from the database.  This
+call should be made using an HTTP <code>GET</code> request to the following URL:</p>
+<blockquote>
+<pre><code>http://polling.3taps.com/poll
+</code></pre>
+</blockquote>
+<p>This API call accepts the following parameters:</p>
+<blockquote>
+<p><code>auth_token</code> <em>(required)</em></p>
+<blockquote>
+<p>The authentication token used to ensure that you are authorized to make
+this API call.</p>
+</blockquote>
+<p><code>anchor</code> <em>(optional)</em></p>
+<blockquote>
+<p>The anchor value to use for this polling request.  Note that this parameter
+is optional -- if no anchor is supplied, the API call will return an empty
+list of postings, along with a new <code>anchor</code> value that can be used to
+retrieve new, updated and deleted postings that have come in since the last
+time this API call was made.  This has the effect of polling "from now on".</p>
+</blockquote>
+<p><code>source</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps data source code.  If this is supplied, only postings
+from the given data source will be included in the polling results.  Note
+that this parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>category_group</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps category group code.  If this is supplied, only postings
+with the given category group will be included in the polling results.
+Note that this parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>category</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps category code.  If this is supplied, only postings with
+the given category will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.country</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps country code.  If this is supplied, only postings in the
+given country will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.state</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps state code.  If this is supplied, only postings in the
+given state will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.metro</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps metro area code.  If this is supplied, only postings in
+the given metro area will be included in the polling results.  Note that
+this parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.region</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps region code.  If this is supplied, only postings in the
+given region will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.county</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps county code.  If this is supplied, only postings in the
+given county will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.city</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps city code.  If this is supplied, only postings in the
+given city will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.locality</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps locality code.  If this is supplied, only postings in the
+given locality will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>location.zipcode</code> <em>(optional)</em></p>
+<blockquote>
+<p>The desired 3taps ZIP code.  If this is supplied, only postings in the
+given ZIP code will be included in the polling results.  Note that this
+parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>status</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include postings with the given status value.  The following status
+values are currently supported:</p>
+<blockquote>
+<p><strong>registered</strong> <br>
+<strong>for_sale</strong> <br>
+<strong>for_hire</strong> <br>
+<strong>for_rent</strong><br>
+<strong>wanted</strong> <br>
+<strong>lost</strong> <br>
+<strong>stolen</strong> <br>
+<strong>found</strong>   </p>
+</blockquote>
+<p>Note that this parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>state</code> <em>(optional)</em></p>
+<blockquote>
+<p>Only include postings in the given state.  The following state values are
+currently supported:</p>
+<blockquote>
+<p><strong>available</strong> <br>
+<strong>unavailable</strong> <br>
+<strong>expired</strong>   </p>
+</blockquote>
+<p>Note that this parameter can include logical operators, as described below.</p>
+</blockquote>
+<p><code>retvals</code> <em>(optional)</em></p>
+<blockquote>
+<p>A string listing the fields which should be returned back to the caller.
+The various fields should be separated by commas.  At present, the
+following fields can be included in this parameter:</p>
+<blockquote>
+<p><strong>id</strong> <br>
+<strong>account_id</strong> <br>
+<strong>source</strong> <br>
+<strong>category</strong> <br>
+<strong>category_group</strong> <br>
+<strong>location</strong> <br>
+<strong>external_id</strong> <br>
+<strong>external_url</strong> <br>
+<strong>heading</strong> <br>
+<strong>body</strong> <br>
+<strong>timestamp</strong> <br>
+<strong>timestamp_deleted</strong> <br>
+<strong>expires</strong> <br>
+<strong>language</strong> <br>
+<strong>price</strong> <br>
+<strong>currency</strong> <br>
+<strong>images</strong> <br>
+<strong>annotations</strong> <br>
+<strong>status</strong> <br>
+<strong>state</strong> <br>
+<strong>immortal</strong> <br>
+<strong>deleted</strong> <br>
+<strong>flagged_status</strong>      </p>
+</blockquote>
+<p>If no <code>retvals</code> parameter is provided, the following default will be used:</p>
+<blockquote>
+<p><strong>id</strong>
+<strong>source</strong> <br>
+<strong>category</strong> <br>
+<strong>location</strong> <br>
+<strong>external_id</strong> <br>
+<strong>external_url</strong> <br>
+<strong>heading</strong> <br>
+<strong>timestamp</strong>   </p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Upon completion, the Polling API will send back a response of type
+<code>application/json</code>, where the body of the response will be a JSON-formatted
+object with some combination of the following fields:</p>
+<blockquote>
+<p><code>success</code></p>
+<blockquote>
+<p>A boolean indicating whether or not the polling attempt was successful.</p>
+</blockquote>
+<p><code>error</code></p>
+<blockquote>
+<p>If the polling attempt failed, this will be a string describing what went
+wrong.</p>
+</blockquote>
+<p><code>anchor</code></p>
+<blockquote>
+<p>This string will contain the anchor value to use the next time the <code>poll</code>
+API call is made.  Using this anchor will ensure that only newly-inserted,
+updated or deleted postings will be included in the next poll request.</p>
+</blockquote>
+<p><code>postings</code></p>
+<blockquote>
+<p>An array containing the found postings, sorted by the date and time at
+which the postings were inserted, updated or deleted.  Each entry in this
+array will be an object with all or some of the following fields, depending
+on the value of the <code>retvals</code> parameter, above:</p>
+<blockquote>
+<p><code>id</code></p>
+<blockquote>
+<p>The internal record ID used to uniquely identify this posting.  Note
+that this will be a (possibly very large) integer.</p>
+</blockquote>
+<p><code>account_id</code></p>
+<blockquote>
+<p>A string identifying the user who submitted the posting.</p>
+</blockquote>
+<p><code>source</code></p>
+<blockquote>
+<p>The code for the source system where this posting originated from.</p>
+</blockquote>
+<p><code>category</code></p>
+<blockquote>
+<p>The 3taps category code for this posting.</p>
+</blockquote>
+<p><code>category_group</code></p>
+<blockquote>
+<p>The 3taps category group code for this posting.</p>
+</blockquote>
+<p><code>location</code></p>
+<blockquote>
+<p>An object with some or all of the following fields:</p>
+<blockquote>
+<p><code>lat</code></p>
+<blockquote>
+<p>The latitude of this posting, in decimal degrees.</p>
+</blockquote>
+<p><code>long</code></p>
+<blockquote>
+<p>The longitude of this posting, in decimal degrees.</p>
+</blockquote>
+<p><code>accuracy</code></p>
+<blockquote>
+<p>An integer indicating the accuracy of the supplied lat/long value.</p>
+</blockquote>
+<p><code>country</code></p>
+<blockquote>
+<p>The 3taps country code for this posting.</p>
+</blockquote>
+<p><code>state</code></p>
+<blockquote>
+<p>The 3taps state code for this posting.</p>
+</blockquote>
+<p><code>metro</code></p>
+<blockquote>
+<p>The 3taps metro area code for this posting.</p>
+</blockquote>
+<p><code>region</code></p>
+<blockquote>
+<p>The 3taps region code for this posting.</p>
+</blockquote>
+<p><code>county</code></p>
+<blockquote>
+<p>The 3taps county code for this posting.</p>
+</blockquote>
+<p><code>city</code></p>
+<blockquote>
+<p>The 3taps city code for this posting.</p>
+</blockquote>
+<p><code>locality</code></p>
+<blockquote>
+<p>The 3taps locality code for this posting.</p>
+</blockquote>
+<p><code>zipcode</code></p>
+<blockquote>
+<p>The 3taps ZIP code for this posting.</p>
+</blockquote>
+<p><code>formatted_address</code></p>
+<blockquote>
+<p>A string containing the address associated with this posting as a
+one-line string, if this information is available.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><code>external_id</code></p>
+<blockquote>
+<p>A string that uniquely identifies the posting in the source system.</p>
+</blockquote>
+<p><code>external_url</code></p>
+<blockquote>
+<p>A URL pointing to the original posting.</p>
+</blockquote>
+<p><code>heading</code></p>
+<blockquote>
+<p>A string containing the heading for this posting.</p>
+</blockquote>
+<p><code>body</code></p>
+<blockquote>
+<p>A string containing the body of this posting, in plain (unformatted)
+text.</p>
+</blockquote>
+<p><code>timestamp</code></p>
+<blockquote>
+<p>The date and time at which the posting was created, as an integer
+number of seconds since the 1st of January 1970 ("unix time"), in UTC.</p>
+</blockquote>
+<p><code>timestamp_deleted</code></p>
+<blockquote>
+<p>The date and time at which the posting was deleted, as an integer
+number of seconds since the 1st of January 1970 ("unix time"), in UTC.</p>
+</blockquote>
+<p><code>expires</code></p>
+<blockquote>
+<p>The date and time at which this posting should expire, as an integer
+number of seconds since the 1st of January 1970 ("unix time"), in UTC. </p>
+</blockquote>
+<p><code>language</code></p>
+<blockquote>
+<p>The 2-character ISO 639-1 language code indicating which language the
+posting is in.</p>
+</blockquote>
+<p><code>price</code></p>
+<blockquote>
+<p>The price associated with this posting, if any.</p>
+</blockquote>
+<p><code>currency</code></p>
+<blockquote>
+<p>The 3-character ISO-4217 currency code indicating which currency the
+price is in.</p>
+</blockquote>
+<p><code>images</code></p>
+<blockquote>
+<p>An array of image objects representing the images associated with this
+posting. Each image object can have the following fields:</p>
+<blockquote>
+<p><code>full</code></p>
+<blockquote>
+<p>The URL pointing to the full-sized image for this posting.</p>
+</blockquote>
+<p><code>full_width</code></p>
+<blockquote>
+<p>The width, in pixels, for the full-sized image, if known.</p>
+</blockquote>
+<p><code>full_height</code></p>
+<blockquote>
+<p>The height, in pixels, for the full-sized image, if known.</p>
+</blockquote>
+<p><code>thumbnail</code></p>
+<blockquote>
+<p>The URL pointing to a thumbnail-sized image for this posting.</p>
+</blockquote>
+<p><code>thumbnail_width</code></p>
+<blockquote>
+<p>The width, in pixels, for the thumbnail-sized image, if known.</p>
+</blockquote>
+<p><code>thumbnail_height</code></p>
+<blockquote>
+<p>The height, in pixels, for the thumbnail-sized image, if known.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><code>annotations</code></p>
+<blockquote>
+<p>A object holding the various annotations to associate with this
+posting. Each field in this object maps the annotation name to its
+associated value, formatted as a string.</p>
+</blockquote>
+<p><code>status</code></p>
+<blockquote>
+<p>The posting's current status.  This will be one of the following
+values:</p>
+<blockquote>
+<p><code>registered</code> <br>
+<code>for_sale</code> <br>
+<code>for_hire</code> <br>
+<code>for_rent</code><br>
+<code>wanted</code> <br>
+<code>lost</code> <br>
+<code>stolen</code> <br>
+<code>found</code>   </p>
+</blockquote>
+</blockquote>
+<p><code>state</code></p>
+<blockquote>
+<p>The state the posting is in.  This will be one of the following values:</p>
+<blockquote>
+<p><code>available</code> <br>
+<code>unavailable</code> <br>
+<code>expired</code>   </p>
+</blockquote>
+</blockquote>
+<p><code>immortal</code></p>
+<blockquote>
+<p><strong>true</strong> if the posting is immortal (ie, never expires), <strong>false</strong>
+otherwise.</p>
+</blockquote>
+<p><code>deleted</code></p>
+<blockquote>
+<p><strong>true</strong> if the posting has been deleted, <strong>false</strong> otherwise.</p>
+</blockquote>
+<p><code>flagged_status</code></p>
+<blockquote>
+<p>A number indicating the current "flagged" status of the posting.  This
+will be one of the following values:</p>
+<blockquote>
+<p><code>0</code> = The posting has never been flagged. <br>
+<code>1</code> = The posting has been flagged by a user. <br>
+<code>2</code> = The flagged status was overruled.   </p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong>Notes:</strong></p>
+<ol>
+<li>
+<p>The maximum number of matching postings returned by a single call to the
+    <code>poll</code> API endpoint depends on which fields you asked to be returned:
+<br><br></p>
+<ul>
+<li>If <code>retvals</code> includes the <strong>body</strong> field, then a limit of 100 postings
+   will be enforced.
+<br><br></li>
+<li>If <code>retvals</code> consists only of the <strong>id</strong> field, then there is a limit of
+   10,000 postings per API call.
+<br><br></li>
+<li>For any other combination of fields, a maximum of up to 1,000 postings
+   will be returned.
+<br><br></li>
+</ul>
+<p>These limits keep the size of the data returned by the server down to a
+reasonable level, ensuring the server isn't overloaded with large requests.</p>
+<p>If more postings are required, you should make another <code>poll</code> request, using
+the returned <code>anchor</code> value, and keep going until you have either retrieved
+as many postings as you want, or there are no more postings to retrieve (in
+which case, the returned <code>postings</code> array will be empty).
+<br><br>
+ 2. If there are no new postings, the Polling API will return the following
+results:</p>
+</li>
+</ol>
+<blockquote>
+<pre><code> {"success" : true,
+  "postings": []
+ }
+</code></pre>
+<p>It is not considered to be an error if there are no new postings.</p>
+</blockquote>
+<h3>Logical Operators</h3>
+<p>A number of parameters can make use of <em>logical operators</em> to allow for more
+sophisticated polling options.  For these parameters, a single value can be
+supplied simply by providing the value itself, like this:</p>
+<blockquote>
+<pre><code>category=SBIK
+</code></pre>
+</blockquote>
+<p>However, special characters can be used to change the way in which the
+parameter is interpreted.  Two special characters are currently supported:</p>
+<ul>
+<li>
+<p>The vertical bar or "pipe" character ("<code>|</code>") is used to calculate the
+   logical <strong>OR</strong> of two or more values.  For example:</p>
+<pre><code>  category=SBIK|SCAR
+</code></pre>
+<p>This means that the polling request would include postings with a category
+ of either <code>SBIK</code> or <code>SCAR</code>.  Note that you can combine as many values as
+ you like using the <code>|</code> operator:</p>
+<pre><code>  category=SBIK|SCAR|STRU|SANT|...
+</code></pre>
+</li>
+<li>
+<p>The tilda character ("<code>~</code>") is used as a logical <strong>NOT</strong> operator.  For
+   example:</p>
+<pre><code>  category=~SBIK
+</code></pre>
+<p>would include all postings with a category that is not equal to <code>SBIK</code>.</p>
+</li>
+</ul>
+      </div>
+    </div>
+  
+
+</body></html>
