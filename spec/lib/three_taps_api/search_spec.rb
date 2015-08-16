@@ -19,67 +19,83 @@ describe ThreeTapsAPI::Search do
       s.must_respond_to :category=
     end
 
+    it 'must recognize valid parameters' do
+      ThreeTapsAPI.valid_parameters.each do |p|
+        ThreeTapsAPI.valid_parameter?(p).must_equal true
+      end
+    end
+
+    it 'must recognize invalid parameters' do
+      ThreeTapsAPI.invalid_parameter?('yes').must_equal true
+      ThreeTapsAPI.invalid_parameter?('bad').must_equal true
+      ThreeTapsAPI.invalid_parameter?('gross').must_equal true
+      ThreeTapsAPI.invalid_parameter?('').must_equal true
+    end
+
     it 'must reject bad parameters' do
       s = ThreeTapsAPI::Search.new({ bad_key: 1, location: { zipcode: 92001 } })
-      proc { s.bad_key_two = 2 }.must_raise Exception
+      s.bad_key = 2
+      s.bad_key.must_equal nil
+      s.bad_key_two = 3
+      s.bad_key_two.must_equal nil
     end
   end
 
   describe 'GET search results' do
-#    before do 
-#      VCR.insert_cassette 'search', :record => :new_episodes
-#      @searcher = ThreeTapsAPI::Search.new
-#      @searcher.search
-#    end
-#    
-#    it 'records a search fixture' do
-#      # Uncomment this line if it's your first time running
-#      # This line has VCR gem record the result from a single search
-#      # ThreeTapsAPI::Search.new.search
-#    end
-#
-#    after do
-#      VCR.eject_cassette
-#    end
-#
-#    it 'Must have a search method' do
-#      @searcher.must_respond_to :search
-#    end
-#
-#    it 'Must parse the API response from JSON to hash' do 
-#      @searcher.results.must_be_instance_of Hash
-#    end
-#
-#    it 'Must perform the request and get the data' do 
-#      @searcher.results.response.must_be_instance_of Net::HTTPOK
-#    end
-#
-#    it 'Must parse the postings from JSON to array' do
-#      @searcher.postings.must_be_instance_of Array
-#    end
-#
-#    it 'Must have postings stored inside of searcher' do
-#      @searcher.postings.count.must_be :>, 0
-#    end
-#
-#    it 'Must keep postings stored as open structs' do
-#      first = @searcher.postings.first
-#      first.must_be_instance_of OpenStruct
-#      first.location.must_be_instance_of OpenStruct
-#    end
+    before do 
+      VCR.insert_cassette 'search', :record => :new_episodes
+      @searcher = ThreeTapsAPI::Search.new
+      @searcher.search
+    end
+
+    after do
+      VCR.eject_cassette
+    end
+    
+    it 'records a search fixture' do
+      # Uncomment this line if it's your first time running
+      # This line has VCR gem record the result from a single search
+       ThreeTapsAPI::Search.new.search
+    end
+
+    it 'Must have a search method' do
+      @searcher.must_respond_to :search
+    end
+
+    it 'Must parse the API response from JSON to hash' do 
+      @searcher.results.must_be_instance_of Hash
+    end
+
+    it 'Must perform the request' do 
+      @searcher.results.response.must_be_instance_of Net::HTTPOK
+    end
+
+    it 'Must parse the postings from JSON to array' do
+      @searcher.postings.must_be_instance_of Array
+    end
+
+    it 'Must have postings stored inside of searcher' do
+      @searcher.postings.count.must_be :>, 0
+    end
+
+    it 'Must keep postings stored as open structs' do
+      first = @searcher.postings.first
+      first.must_be_instance_of OpenStruct
+      first.location.must_be_instance_of OpenStruct
+    end
   end
 
   describe 'GET search results with specific location and category group' do
-#    before do 
-#      VCR.insert_cassette 'search', :record => :new_episodes
-#      @searcher = ThreeTapsAPI::Search.new
-#      @searcher.category_group = 'AAAA'
-#      @searcher.location.zipcode = 'USA-92001'
-#    end
-#
-#
-#    it 'Records a search fixture with specific location and category group' do
-#      @searcher.search
-#    end
+    before do 
+      VCR.insert_cassette 'search', :record => :new_episodes
+      @searcher = ThreeTapsAPI::Search.new
+      @searcher.category_group = 'AAAA'
+      @searcher.location.zipcode = 'USA-92001'
+    end
+
+
+    it 'Records a search fixture with specific location and category group' do
+      @searcher.search
+    end
   end
 end
