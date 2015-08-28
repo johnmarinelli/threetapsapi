@@ -59,7 +59,7 @@ describe ThreeTapsAPI::Reference do
     end
 
     it 'records zipcodes fixture' do
-      # @reference.locations 'zipcode'
+      @reference.locations 'zipcode'
     end
 
     after do

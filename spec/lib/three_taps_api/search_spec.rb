@@ -53,7 +53,6 @@ describe ThreeTapsAPI::Search do
     end
     
     it 'records a search fixture' do
-      # Uncomment this line if it's your first time running
       # This line has VCR gem record the result from a single search
        ThreeTapsAPI::Search.new.search
     end
@@ -92,7 +91,6 @@ describe ThreeTapsAPI::Search do
       @searcher.category_group = 'AAAA'
       @searcher.location.zipcode = 'USA-92001'
     end
-
 
     it 'Records a search fixture with specific location and category group' do
       @searcher.search

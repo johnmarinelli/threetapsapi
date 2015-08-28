@@ -2,6 +2,7 @@ require_relative 'location'
 
 module ThreeTapsAPI
   def self.rec_hash_to_openstruct(hash)
+    raise TypeError  if not hash.is_a? Hash
     hash = hash.map { |k, v| [k, v.is_a?(Hash) ? rec_hash_to_openstruct(v) : v] }
     OpenStruct.new Hash[hash]
   end

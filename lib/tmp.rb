@@ -49,13 +49,13 @@ end
 #p BTest.new({ a: 1, b: 2 }).a
 
 
-s = ThreeTapsAPI::Search.new({ category_group: 'AAAA', location: { zipcode: 92001 } })
-s.category_group = 'BBBB'
-p s.location.zipcode
-s.location.zipcode = 11111
-p s.location.zipcode
-s.category = 'animals'
-p s
+#s = ThreeTapsAPI::Search.new({ category_group: 'AAAA', location: { zipcode: 92001 } })
+#s.category_group = 'BBBB'
+#p s.location.zipcode
+#s.location.zipcode = 11111
+#p s.location.zipcode
+#s.category = 'animals'
+#p s
 #s.category_group.must_equal 'AAAA'
 #s.must_respond_to 'category_group='
 #s.location.zipcode.must_equal 92001
@@ -63,3 +63,26 @@ p s
 #s.category = 'Animals'
 #s.category.must_equal 'Animals'
 #s.must_respond_to :category=
+
+module GetSetModule
+  def create_getter_and_setter(name)
+    get = Proc.new { instance_variable_get "@#{name}" }
+    set = Proc.new { |val| instance_variable_set "@#{name}", val; @parameters[name.to_sym] = val }
+    self.class.send :define_method, "#{name}", get
+    self.class.send :define_method, "#{name}=", set
+  end
+end
+
+class ADynamicGetSetClass
+  extend GetSetModule
+
+  def method_missing(name, *args)
+    name = name.to_s.chop if name.to_s.reverse[0] == '='
+    create_getter_and_setter name
+    self.send "#{name.to_s}=", args[0]
+  end
+end
+
+adgsc = ADynamicGetSetClass.new
+adgsc.a = 10
+p adgsc.a

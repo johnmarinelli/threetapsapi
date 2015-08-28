@@ -16,10 +16,10 @@ module ThreeTapsAPI
 
     def initialize(args = {})
       @parameters = args
-      @location = Location.new(args[:location] || {})
+      @location = Location.new(args.delete(:location) || {})
       @postings = OpenStruct.new
 
-      args.delete :location
+      #args.delete :location
 
       args.each do |k, v|
         create_getter_and_setter k if ThreeTapsAPI.valid_parameter? k.to_s
@@ -27,7 +27,8 @@ module ThreeTapsAPI
       end 
     end
 
-    def search(opts = {})
+    def search
+      opts = {}
       opts.merge!(auth_token_hash)
         .merge!(@parameters)
       @results = self.class.get self.class.base_uri, { query: opts }
@@ -35,7 +36,7 @@ module ThreeTapsAPI
     end
 
     def method_missing(name, *args, &block)
-      # TODO: if it's a valid parameter, create a get/set for it
+      # TODO: return if not a setter function
       name = name.to_s.chop if name.to_s.reverse[0] == '='
       p "#{name} is not a valid parameter." and return if ThreeTapsAPI.invalid_parameter? name
       @parameters[name.to_sym] = args[0]
