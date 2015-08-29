@@ -9,5 +9,11 @@ module ThreeTapsAPI
         self.send "#{k}=", v if self.class.method_defined? "#{k}"
       end
     end
+
+    def to_query_hash
+      hash = {}
+      instance_variables.each { |v| hash["location.#{v.to_s.delete("@")}"] = instance_variable_get v }
+      hash
+    end
   end
 end
