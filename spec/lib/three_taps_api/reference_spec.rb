@@ -79,7 +79,6 @@ describe ThreeTapsAPI::Reference do
 
     it 'has nil reference when given an invalid location level' do
       @reference.locations 'invalid'
-      @reference.results['success'].must_equal false
       @reference.reference.must_equal nil
     end
   end
