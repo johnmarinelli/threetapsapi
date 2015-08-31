@@ -2,3 +2,6 @@ language: ruby
 rvm:
   - 2.1.2
 
+env:
+  THREE_TAPS_API_KEY="6fc1d8fa4866493f63034310e6632e10"
+
