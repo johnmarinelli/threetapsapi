@@ -92,8 +92,13 @@ describe ThreeTapsAPI::Search do
       @searcher.location.zipcode = 'USA-92001'
     end
 
+    after do
+      VCR.eject_cassette
+    end
+
     it 'Records a search fixture with specific location and category group' do
       @searcher.search
     end
+
   end
 end

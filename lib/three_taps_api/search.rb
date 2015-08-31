@@ -19,8 +19,6 @@ module ThreeTapsAPI
       @location = Location.new(args.delete(:location) || {})
       @postings = OpenStruct.new
 
-      #args.delete :location
-
       args.each do |k, v|
         create_getter_and_setter k if ThreeTapsAPI.valid_parameter? k.to_s
         self.send "#{k.to_s}=", v
@@ -37,7 +35,6 @@ module ThreeTapsAPI
     end
 
     def method_missing(name, *args, &block)
-      # TODO: return if not a setter function
       name = name.to_s.chop if name.to_s.reverse[0] == '='
       p "#{name} is not a valid parameter." and return if ThreeTapsAPI.invalid_parameter? name
       @parameters[name.to_sym] = args[0]

@@ -84,5 +84,11 @@ class ADynamicGetSetClass
 end
 
 adgsc = ADynamicGetSetClass.new
-adgsc.a = 10
-p adgsc.a
+#adgsc.a = 10
+
+a = ThreeTapsAPI::Search.new
+a.location.zipcode = 'USA-92808'
+a.search
+
+r = ThreeTapsAPI::Reference.new
+r.categories

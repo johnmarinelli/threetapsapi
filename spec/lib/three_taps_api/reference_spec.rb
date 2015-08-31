@@ -13,12 +13,12 @@ describe ThreeTapsAPI::Reference do
       @reference = ThreeTapsAPI::Reference.new
     end
 
-    it 'records category groups fixture' do
-      @reference.category_groups
-    end
-
     after do
       VCR.eject_cassette
+    end
+
+    it 'records category groups fixture' do
+      @reference.category_groups
     end
   end
 
@@ -28,12 +28,12 @@ describe ThreeTapsAPI::Reference do
       @reference = ThreeTapsAPI::Reference.new
     end
 
-    it 'records categories fixture' do
-      @reference.categories
-    end
-
     after do
       VCR.eject_cassette
+    end
+
+    it 'records categories fixture' do
+      @reference.categories
     end
   end
 
@@ -43,12 +43,12 @@ describe ThreeTapsAPI::Reference do
       @reference = ThreeTapsAPI::Reference.new
     end
 
-    it 'records locations fixture' do
-      @reference.locations 'country'
-    end
-
     after do
       VCR.eject_cassette
+    end
+    
+    it 'records locations fixture' do
+      @reference.locations 'country'
     end
   end
   
@@ -58,12 +58,29 @@ describe ThreeTapsAPI::Reference do
       @reference = ThreeTapsAPI::Reference.new
     end
 
+    after do
+      VCR.eject_cassette
+    end
+
     it 'records zipcodes fixture' do
       @reference.locations 'zipcode'
+    end
+  end
+  
+  describe 'GET reference results for invalid location level' do
+    before do
+      VCR.insert_cassette 'invalid_reference', :record => :new_episodes
+      @reference = ThreeTapsAPI::Reference.new
     end
 
     after do
       VCR.eject_cassette
+    end
+
+    it 'has nil reference when given an invalid location level' do
+      @reference.locations 'invalid'
+      @reference.results['success'].must_equal false
+      @reference.reference.must_equal nil
     end
   end
 end
