@@ -7,6 +7,12 @@ module ThreeTapsAPI
     OpenStruct.new Hash[hash]
   end
 
+  def self.rec_stringify_hash_keys(hash)
+    raise TypeError if not hash.is_a? Hash
+    hash_s = hash.map { |k, v| [k.to_s, v.is_a?(Hash) ? rec_stringify_hash_keys(v) : v] }
+    Hash[hash_s]
+  end
+
   class Base
     include HTTParty
     base_uri '3taps.com'

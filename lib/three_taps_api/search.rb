@@ -30,6 +30,10 @@ module ThreeTapsAPI
       opts.merge!(auth_token_hash)
         .merge!(@parameters)
         .merge!(@location.to_query_hash)
+
+      # stringify keys for httparty
+      opts = ThreeTapsAPI.rec_stringify_hash_keys opts
+
       @results = self.class.get self.class.base_uri, { query: opts }
       @postings = @results.parsed_response['postings'].map { |p| ThreeTapsAPI.rec_hash_to_openstruct p }
     end
